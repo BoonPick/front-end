@@ -1,73 +1,74 @@
-# React + TypeScript + Vite
+# BoonPick Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+관심 키워드 기반으로 취업 정보, 공지사항, 장학금 등을 찾아주고, AI 추천/매칭 + 준비 가이드를 제공하는 서비스의 프론트엔드입니다.
 
-Currently, two official plugins are available:
+## Screenshots
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 로그인 / 회원가입
+![로그인](docs/screenshots/01-login.png)
 
-## React Compiler
+### 키워드 입력
+관심 키워드를 직접 입력하거나, 추천 키워드를 클릭하여 선택합니다.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+![키워드 입력](docs/screenshots/03-keywords.png)
 
-## Expanding the ESLint configuration
+### 맞춤 정보 게시판
+설정한 키워드 기반으로 채용/공지/장학금 정보를 카테고리별로 확인합니다.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+![게시판](docs/screenshots/04-board.png)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 상세 페이지 + AI 추천
+게시글 상세 내용과 함께 AI 기반 매칭 점수, 추천 이유, 준비사항을 확인합니다.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+![상세 페이지](docs/screenshots/05-detail.png)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 키워드 수정
+언제든 관심 키워드를 추가/삭제할 수 있습니다.
+
+![키워드 수정](docs/screenshots/06-keyword-edit.png)
+
+## Tech Stack
+
+- **React 19** + **TypeScript** (Vite)
+- **shadcn/ui** + Tailwind CSS v4
+- **React Router v7** (SPA)
+- **TanStack Query** (데이터 관리)
+
+## Getting Started
+
+```bash
+# 의존성 설치
+yarn install
+
+# 개발 서버 실행
+yarn dev
+
+# 프로덕션 빌드
+yarn build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+테스트 로그인: `test@boonpick.com` (비밀번호 아무거나)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Project Structure
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── api/          # API 레이어 (mock → 실제 API 교체 지점)
+├── app/          # App, Router, QueryClient
+├── components/
+│   ├── ui/       # shadcn/ui 컴포넌트
+│   ├── layout/   # Header, RootLayout, AuthGuard
+│   └── common/   # KeywordChip, KeywordForm, BoardCard, CategoryTabs
+├── pages/        # 페이지 컴포넌트 (auth, keywords, board, detail)
+├── hooks/        # useAuth, useKeywords, useBoardItems
+├── mocks/        # Mock 데이터
+└── types/        # TypeScript 타입 정의
+```
+
+## Backend Integration
+
+현재 mock 데이터로 동작합니다. 백엔드 연동 시:
+
+1. `.env`에 `VITE_API_URL` 설정
+2. `src/api/*.ts` 파일 내부의 mock 로직을 실제 HTTP 호출로 교체
+3. hooks와 컴포넌트는 변경 불필요
