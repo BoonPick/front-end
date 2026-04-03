@@ -12,7 +12,7 @@ pipeline {
         TARGET_USER = "sogang018@SGVDI.local"
         SSH_CRED_ID = "team" // SSH 자격증명 ID
     }
-
+//test
     stages {
         stage('Checkout') {
             steps {
