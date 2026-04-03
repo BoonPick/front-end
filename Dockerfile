@@ -8,8 +8,13 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
-# 소스 코드 복사 및 빌드
+# 소스 코드 복사
 COPY . .
+
+# 빌드 시점에 API 주소 주입 (Vite는 빌드 타임에만 환경변수 반영 가능)
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
 RUN npm run build
 
 # 2단계: 실행 스테이지 (Nginx)

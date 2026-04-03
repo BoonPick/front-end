@@ -11,6 +11,9 @@ pipeline {
         TARGET_SERVER = "163.239.77.78" 
         TARGET_USER = "sogang018@SGVDI.local"
         SSH_CRED_ID = "team" // SSH 자격증명 ID
+
+        // 백엔드 API 주소자격 증명에서 가져오기
+        VITE_API_URL = credentials('BOONPICK_BACKEND_API_URL')
     }
 //test2
     stages {
@@ -23,9 +26,9 @@ pipeline {
         stage('Build and Push to Docker Hub') {
             steps {
                 script {
-                    // 1. 도커 허브 로그인 및 이미지 빌드/푸시
+                    // --build-arg 옵션으로 VITE_API_URL을 전달하여 이미지 빌드
                     docker.withRegistry('', "${DOCKER_HUB_CREDS}") {
-                        def myImage = docker.build("${IMAGE_NAME}:${env.BUILD_NUMBER}")
+                        def myImage = docker.build("${IMAGE_NAME}:${env.BUILD_NUMBER}", "--build-arg VITE_API_URL=${env.VITE_API_URL} .")
                         myImage.push()
                         myImage.push('latest')
                     }
