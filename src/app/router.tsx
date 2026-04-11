@@ -6,11 +6,16 @@ import { KeywordInputPage } from "@/pages/keywords/KeywordInputPage";
 import { KeywordEditPage } from "@/pages/keywords/KeywordEditPage";
 import { BoardPage } from "@/pages/board/BoardPage";
 import { DetailPage } from "@/pages/detail/DetailPage";
+import { AdminKeywordPage } from "@/pages/admin/AdminKeywordPage";
 
 export const router = createBrowserRouter([
   {
     path: "/auth",
     element: <AuthPage />,
+  },
+  {
+    path: "/admin",
+    element: <AdminKeywordPage />,
   },
   {
     element: (
