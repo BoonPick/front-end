@@ -22,13 +22,16 @@ export function KeywordChip({
     >
       {keyword}
       {onRemove && (
-        <X
-          className="h-3 w-3"
+        <button
+          type="button"
           onClick={(e) => {
             e.stopPropagation();
             onRemove();
           }}
-        />
+          className="pointer-events-auto"
+        >
+          <X className="h-3 w-3" />
+        </button>
       )}
     </Badge>
   );

@@ -13,7 +13,8 @@ export async function apiClient<T>(
   });
 
   if (!res.ok) {
-    throw new Error(`API Error: ${res.status}`);
+    const body = await res.json().catch(() => null);
+    throw new Error(body?.detail || `API Error: ${res.status}`);
   }
 
   return res.json();
