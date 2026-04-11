@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { KeywordChip } from "./KeywordChip";
-import { suggestedKeywords } from "@/mocks/keywords";
+import { getSuggestedKeywords } from "@/api/keywords";
 
 interface KeywordFormProps {
   initialKeywords?: string[];
@@ -22,6 +22,11 @@ export function KeywordForm({
 }: KeywordFormProps) {
   const [keywords, setKeywords] = useState<string[]>(initialKeywords);
   const [inputValue, setInputValue] = useState("");
+  const [suggestedKeywords, setSuggestedKeywords] = useState<string[]>([]);
+
+  useEffect(() => {
+    getSuggestedKeywords().then(setSuggestedKeywords).catch(() => {});
+  }, []);
 
   const addKeyword = (keyword: string) => {
     const trimmed = keyword.trim();

@@ -1,20 +1,16 @@
 import { apiClient } from "./client";
 
-function getUserId(): string {
-  const stored = localStorage.getItem("boonpick_user");
-  if (!stored) throw new Error("로그인이 필요합니다.");
-  return JSON.parse(stored).id;
-}
+const STORAGE_KEY = "boonpick_keywords";
 
 export async function getKeywords(): Promise<string[]> {
-  const userId = getUserId();
-  return apiClient<string[]>(`/api/users/${userId}/keywords`);
+  const stored = localStorage.getItem(STORAGE_KEY);
+  return stored ? JSON.parse(stored) : [];
 }
 
 export async function updateKeywords(keywords: string[]): Promise<void> {
-  const userId = getUserId();
-  await apiClient(`/api/users/${userId}/keywords`, {
-    method: "PUT",
-    body: JSON.stringify({ keywords }),
-  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(keywords));
+}
+
+export async function getSuggestedKeywords(): Promise<string[]> {
+  return apiClient<string[]>("/api/keywords");
 }

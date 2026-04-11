@@ -1,17 +1,14 @@
 import type { Recommendation } from "@/types";
 import { apiClient } from "./client";
 
-function getUserId(): string {
-  const stored = localStorage.getItem("boonpick_user");
-  if (!stored) throw new Error("로그인이 필요합니다.");
-  return JSON.parse(stored).id;
-}
-
 export async function getRecommendation(
   itemId: string,
 ): Promise<Recommendation> {
-  const userId = getUserId();
+  const stored = localStorage.getItem("boonpick_keywords");
+  const keywords: string[] = stored ? JSON.parse(stored) : [];
+  const params = new URLSearchParams();
+  if (keywords.length) params.set("keywords", keywords.join(","));
   return apiClient<Recommendation>(
-    `/api/recommendations/${itemId}?user_id=${userId}`,
+    `/api/recommendations/${itemId}?${params}`,
   );
 }
