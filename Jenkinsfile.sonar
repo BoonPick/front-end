@@ -26,7 +26,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
-                    yarn install
+                    npm install
                 '''
             }
         }
@@ -34,7 +34,7 @@ pipeline {
         stage('Build Check') {
             steps {
                 sh '''
-                    yarn build
+                    npm run build
                 '''
             }
         }
@@ -42,7 +42,7 @@ pipeline {
         stage('Lint Check') {
             steps {
                 sh '''
-                    yarn lint
+                    npm run lint
                 '''
             }
         }
