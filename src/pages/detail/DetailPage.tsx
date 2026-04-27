@@ -53,15 +53,33 @@ export function DetailPage() {
 
       <Card>
         <CardHeader>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <Badge
               variant="secondary"
               className={categoryColors[item.category]}
             >
-              {categoryLabels[item.category]}
+              {item.category === "job" && item.employment
+                ? item.employment
+                : categoryLabels[item.category]}
             </Badge>
+            {item.category === "job" && item.workType && (
+              <Badge variant="outline">{item.workType}</Badge>
+            )}
+            {item.category === "job" && item.duty && (
+              <Badge variant="outline">{item.duty}</Badge>
+            )}
             <span className="text-sm text-muted-foreground">{item.source}</span>
-            <span className="text-sm text-muted-foreground">{item.date}</span>
+            {item.category === "job" ? (
+              item.isAlwaysOpen ? (
+                <span className="text-sm text-muted-foreground">상시채용</span>
+              ) : item.deadline ? (
+                <span className="text-sm text-muted-foreground">
+                  {item.deadline} 마감일
+                </span>
+              ) : null
+            ) : (
+              <span className="text-sm text-muted-foreground">{item.date}</span>
+            )}
           </div>
           <CardTitle className="text-2xl">{item.title}</CardTitle>
           <CardDescription>{item.summary}</CardDescription>

@@ -25,17 +25,39 @@ interface BoardCardProps {
   item: BoardItem;
 }
 
+function DeadlineLabel({ item }: { item: BoardItem }) {
+  if (item.category !== "job") {
+    return <span className="text-xs text-muted-foreground">{item.date}</span>;
+  }
+  if (item.isAlwaysOpen) {
+    return <span className="text-xs text-muted-foreground">상시채용</span>;
+  }
+  if (item.deadline) {
+    return (
+      <span className="text-xs text-muted-foreground">
+        {item.deadline} 마감일
+      </span>
+    );
+  }
+  return null;
+}
+
 export function BoardCard({ item }: BoardCardProps) {
+  const badgeLabel =
+    item.category === "job" && item.employment
+      ? item.employment
+      : categoryLabels[item.category];
+
   return (
     <Link to={`/board/${item.id}`}>
       <Card className="transition-colors hover:bg-muted/50">
         <CardHeader className="pb-2">
           <div className="flex items-center gap-2">
             <Badge variant="secondary" className={categoryColors[item.category]}>
-              {categoryLabels[item.category]}
+              {badgeLabel}
             </Badge>
             <span className="text-xs text-muted-foreground">{item.source}</span>
-            <span className="text-xs text-muted-foreground">{item.date}</span>
+            <DeadlineLabel item={item} />
           </div>
           <CardTitle className="text-lg">{item.title}</CardTitle>
         </CardHeader>

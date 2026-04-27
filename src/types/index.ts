@@ -17,6 +17,11 @@ export interface BoardItem {
   sourceUrl: string;
   date: string;
   keywords: string[];
+  employment?: string | null;
+  workType?: string | null;
+  duty?: string | null;
+  deadline?: string | null;
+  isAlwaysOpen?: boolean | null;
 }
 
 export interface Recommendation {
