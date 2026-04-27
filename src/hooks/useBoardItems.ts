@@ -9,10 +9,11 @@ export function useBoardItems(
   enabled = true,
   search?: string,
   duty?: string,
+  workType?: string,
 ) {
   return useQuery({
-    queryKey: ["boardItems", category, keywords, search, duty],
-    queryFn: () => boardApi.getBoardItems(category, keywords, search, duty),
+    queryKey: ["boardItems", category, keywords, search, duty, workType],
+    queryFn: () => boardApi.getBoardItems(category, keywords, search, duty, workType),
     enabled,
   });
 }

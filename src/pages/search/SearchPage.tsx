@@ -18,25 +18,32 @@ const DUTY_OPTIONS = [
   "서비스기획(IT)", "UI/UX디자인", "법무", "기타", "요강참조",
 ];
 
+const WORK_TYPE_OPTIONS = [
+  "정규직", "계약직", "인턴직", "채용연계형인턴", "병역특례", "기타",
+];
+
+const selectClass =
+  "flex h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring w-full max-w-xs";
+
 export function SearchPage() {
   const [inputValue, setInputValue] = useState("");
   const [search, setSearch] = useState("");
   const [duty, setDuty] = useState("");
+  const [workType, setWorkType] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
 
   const { keywords } = useKeywords();
   const { category: recommendCategory } = useRecommendCategory();
 
   const isRecommendTab = activeCategory === "recommendation";
-  const showDutyFilter = activeCategory === "all" || activeCategory === "job";
-  const hasFilter = !!search || !!duty;
+  const showJobFilters = activeCategory === "all" || activeCategory === "job";
+  const hasFilter = !!search || !!duty || !!workType;
 
   const apiCategory = isRecommendTab
     ? (recommendCategory === "all" ? undefined : (recommendCategory as Category))
     : (activeCategory === "all" ? undefined : (activeCategory as Category));
 
   const apiKeywords = isRecommendTab ? keywords : undefined;
-
   const shouldFetch = hasFilter && (!isRecommendTab || keywords.length > 0);
 
   const { data: items = [], isLoading } = useBoardItems(
@@ -45,6 +52,7 @@ export function SearchPage() {
     shouldFetch,
     search || undefined,
     duty || undefined,
+    workType || undefined,
   );
 
   const handleSearch = () => setSearch(inputValue.trim());
@@ -65,19 +73,34 @@ export function SearchPage() {
         </Button>
       </div>
 
-      {showDutyFilter && (
-        <div className="flex items-center gap-3">
-          <span className="text-sm text-muted-foreground shrink-0">직무</span>
-          <select
-            className="flex h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring w-full max-w-xs"
-            value={duty}
-            onChange={(e) => setDuty(e.target.value)}
-          >
-            <option value="">전체</option>
-            {DUTY_OPTIONS.map((d) => (
-              <option key={d} value={d}>{d}</option>
-            ))}
-          </select>
+      {showJobFilters && (
+        <div className="flex flex-wrap gap-4">
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-muted-foreground shrink-0">직무</span>
+            <select
+              className={selectClass}
+              value={duty}
+              onChange={(e) => setDuty(e.target.value)}
+            >
+              <option value="">전체</option>
+              {DUTY_OPTIONS.map((d) => (
+                <option key={d} value={d}>{d}</option>
+              ))}
+            </select>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-muted-foreground shrink-0">고용형태</span>
+            <select
+              className={selectClass}
+              value={workType}
+              onChange={(e) => setWorkType(e.target.value)}
+            >
+              <option value="">전체</option>
+              {WORK_TYPE_OPTIONS.map((w) => (
+                <option key={w} value={w}>{w}</option>
+              ))}
+            </select>
+          </div>
         </div>
       )}
 
@@ -85,7 +108,7 @@ export function SearchPage() {
 
       {!hasFilter ? (
         <div className="py-8 text-center text-muted-foreground">
-          검색어를 입력하거나 직무를 선택하세요.
+          검색어를 입력하거나 필터를 선택하세요.
         </div>
       ) : isLoading ? (
         <div className="py-8 text-center text-muted-foreground">검색 중...</div>
