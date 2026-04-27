@@ -50,16 +50,16 @@ describe("useAuth", () => {
 
     const { result } = renderHook(() => useAuth());
 
-    let caughtError: Error | null = null;
+    let caughtMessage: string | null = null;
     await act(async () => {
       try {
         await result.current.login("bad@email.com", "wrong");
       } catch (e) {
-        caughtError = e as Error;
+        caughtMessage = (e as Error).message;
       }
     });
 
-    expect(caughtError?.message).toBe("로그인 실패");
+    expect(caughtMessage).toBe("로그인 실패");
     expect(result.current.error).toBe("로그인 실패");
     expect(result.current.user).toBeNull();
   });
@@ -83,16 +83,16 @@ describe("useAuth", () => {
 
     const { result } = renderHook(() => useAuth());
 
-    let caughtError: Error | null = null;
+    let caughtMessage: string | null = null;
     await act(async () => {
       try {
         await result.current.signup("x@y.com", "pass", "X");
       } catch (e) {
-        caughtError = e as Error;
+        caughtMessage = (e as Error).message;
       }
     });
 
-    expect(caughtError?.message).toBe("회원가입에 실패했습니다.");
+    expect(caughtMessage).toBe("회원가입에 실패했습니다.");
     expect(result.current.error).toBe("회원가입에 실패했습니다.");
   });
 
