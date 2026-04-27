@@ -3,10 +3,11 @@ import type { Category } from "@/types";
 import * as boardApi from "@/api/board";
 import * as recApi from "@/api/recommendations";
 
-export function useBoardItems(category?: Category, keywords?: string[]) {
+export function useBoardItems(category?: Category, keywords?: string[], enabled = true) {
   return useQuery({
     queryKey: ["boardItems", category, keywords],
     queryFn: () => boardApi.getBoardItems(category, keywords),
+    enabled,
   });
 }
 

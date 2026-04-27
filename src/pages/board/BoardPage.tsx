@@ -6,15 +6,29 @@ import { BoardCard } from "@/components/common/BoardCard";
 import { KeywordChip } from "@/components/common/KeywordChip";
 import { useBoardItems } from "@/hooks/useBoardItems";
 import { useKeywords } from "@/hooks/useKeywords";
+import { useRecommendCategory } from "@/hooks/useRecommendCategory";
 import type { Category } from "@/types";
 import { Settings } from "lucide-react";
 
 export function BoardPage() {
   const [activeCategory, setActiveCategory] = useState("all");
   const { keywords } = useKeywords();
-  const category =
-    activeCategory === "all" ? undefined : (activeCategory as Category);
-  const { data: items = [], isLoading } = useBoardItems(category, keywords);
+  const { category: recommendCategory } = useRecommendCategory();
+
+  const isRecommendTab = activeCategory === "recommendation";
+  const hasKeywords = keywords.length > 0;
+
+  const apiCategory = isRecommendTab
+    ? (recommendCategory === "all" ? undefined : (recommendCategory as Category))
+    : (activeCategory === "all" ? undefined : (activeCategory as Category));
+
+  const apiKeywords = isRecommendTab ? keywords : undefined;
+
+  const { data: items = [], isLoading } = useBoardItems(
+    apiCategory,
+    apiKeywords,
+    !isRecommendTab || hasKeywords,
+  );
 
   return (
     <div className="space-y-6">
@@ -26,7 +40,7 @@ export function BoardPage() {
         </Button>
       </div>
 
-      {keywords.length > 0 && (
+      {isRecommendTab && hasKeywords && (
         <div className="flex flex-wrap gap-2">
           {keywords.map((k) => (
             <KeywordChip key={k} keyword={k} variant="secondary" />
@@ -34,10 +48,10 @@ export function BoardPage() {
         </div>
       )}
 
-      {keywords.length === 0 && (
+      {isRecommendTab && !hasKeywords && (
         <div className="rounded-lg border border-dashed p-6 text-center">
           <p className="text-muted-foreground">
-            키워드를 설정하면 맞춤 정보를 받아볼 수 있어요.
+            키워드를 설정하면 맞춤 추천을 받아볼 수 있어요.
           </p>
           <Button variant="link" className="mt-2" render={<Link to="/keywords/edit" />}>
             키워드 설정하기
@@ -49,7 +63,7 @@ export function BoardPage() {
 
       {isLoading ? (
         <div className="py-8 text-center text-muted-foreground">로딩 중...</div>
-      ) : items.length === 0 ? (
+      ) : isRecommendTab && !hasKeywords ? null : items.length === 0 ? (
         <div className="py-8 text-center text-muted-foreground">
           검색 결과가 없습니다.
         </div>

@@ -7,6 +7,7 @@ interface CategoryTabsProps {
 
 const categories: { value: string; label: string }[] = [
   { value: "all", label: "전체" },
+  { value: "recommendation", label: "추천" },
   { value: "job", label: "채용" },
   { value: "announcement", label: "공지" },
   { value: "scholarship", label: "장학금" },

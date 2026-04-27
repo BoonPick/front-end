@@ -1,10 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import { KeywordForm } from "@/components/common/KeywordForm";
 import { useKeywords } from "@/hooks/useKeywords";
+import { useRecommendCategory } from "@/hooks/useRecommendCategory";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import type { Category } from "@/types";
+
+const categoryOptions: { value: Category | "all"; label: string }[] = [
+  { value: "all", label: "전체" },
+  { value: "job", label: "채용" },
+  { value: "announcement", label: "공지" },
+  { value: "scholarship", label: "장학금" },
+];
 
 export function KeywordEditPage() {
   const navigate = useNavigate();
   const { keywords, updateKeywords, isLoading } = useKeywords();
+  const { category: recommendCategory, updateCategory } = useRecommendCategory();
 
   const handleSubmit = async (newKeywords: string[]) => {
     await updateKeywords(newKeywords);
@@ -16,12 +28,36 @@ export function KeywordEditPage() {
   }
 
   return (
-    <KeywordForm
-      title="키워드 수정"
-      submitLabel="저장"
-      initialKeywords={keywords}
-      onSubmit={handleSubmit}
-      onCancel={() => navigate("/board")}
-    />
+    <>
+      <KeywordForm
+        title="키워드 수정"
+        submitLabel="저장"
+        initialKeywords={keywords}
+        onSubmit={handleSubmit}
+        onCancel={() => navigate("/board")}
+      />
+
+      <div className="mx-auto w-full max-w-2xl space-y-3 pt-2">
+        <Separator />
+        <div className="space-y-3 pt-2">
+          <p className="text-sm font-medium">추천 카테고리</p>
+          <p className="text-xs text-muted-foreground">
+            추천 탭에서 볼 카테고리를 선택하세요.
+          </p>
+          <div className="flex gap-2 flex-wrap">
+            {categoryOptions.map((opt) => (
+              <Button
+                key={opt.value}
+                variant={recommendCategory === opt.value ? "default" : "outline"}
+                size="sm"
+                onClick={() => updateCategory(opt.value)}
+              >
+                {opt.label}
+              </Button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
