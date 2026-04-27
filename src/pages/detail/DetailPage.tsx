@@ -58,8 +58,8 @@ export function DetailPage() {
               variant="secondary"
               className={categoryColors[item.category]}
             >
-              {item.category === "job" && item.employment
-                ? item.employment
+              {item.category === "job" && item.workType
+                ? item.workType
                 : categoryLabels[item.category]}
             </Badge>
             {item.category === "job" && item.workType && (

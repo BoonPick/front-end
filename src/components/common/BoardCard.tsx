@@ -44,8 +44,8 @@ function DeadlineLabel({ item }: { item: BoardItem }) {
 
 export function BoardCard({ item }: BoardCardProps) {
   const badgeLabel =
-    item.category === "job" && item.employment
-      ? item.employment
+    item.category === "job" && item.workType
+      ? item.workType
       : categoryLabels[item.category];
 
   return (
