@@ -108,7 +108,6 @@ export function KeywordForm({
         )}
         <Button
           onClick={() => onSubmit(keywords)}
-          disabled={keywords.length === 0}
           className="flex-1"
         >
           {submitLabel}
