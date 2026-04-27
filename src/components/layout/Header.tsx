@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
-import { LogOut, Settings, Search } from "lucide-react";
+import { LogOut, Settings, Search, Home } from "lucide-react";
 
 export function Header() {
   const { user, logout } = useAuth();
@@ -16,8 +16,12 @@ export function Header() {
         {user && (
           <nav className="flex items-center gap-2">
             <Button variant="ghost" size="sm" render={<Link to="/board" />}>
+              <Home className="mr-1 h-4 w-4" />
+              홈
+            </Button>
+            <Button variant="ghost" size="sm" render={<Link to="/search" />}>
               <Search className="mr-1 h-4 w-4" />
-              게시판
+              검색
             </Button>
             <Button variant="ghost" size="sm" render={<Link to="/keywords/edit" />}>
               <Settings className="mr-1 h-4 w-4" />
