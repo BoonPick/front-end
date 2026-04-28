@@ -57,7 +57,7 @@ export function AuthPage() {
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">BoonPick</CardTitle>
           <p className="text-sm text-muted-foreground">
-            관심 키워드 기반 맞춤 정보 추천
+            서강대 공지, 인턴쉽 추천
           </p>
         </CardHeader>
         <CardContent>

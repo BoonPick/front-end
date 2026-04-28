@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { CategoryTabs } from "@/components/common/CategoryTabs";
 import { BoardCard } from "@/components/common/BoardCard";
 import { KeywordChip } from "@/components/common/KeywordChip";
@@ -21,6 +22,13 @@ import type { Category } from "@/types";
 import { Settings } from "lucide-react";
 
 const PAGE_SIZE = 10;
+
+const RECOMMEND_CATEGORY_LABELS: Record<string, string> = {
+  all: "전체",
+  job: "채용",
+  announcement: "공지",
+  scholarship: "장학금",
+};
 
 export function BoardPage() {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -87,11 +95,20 @@ export function BoardPage() {
         </div>
       </div>
 
-      {isRecommendTab && hasKeywords && (
-        <div className="flex flex-wrap gap-2">
-          {keywords.map((k) => (
-            <KeywordChip key={k} keyword={k} variant="secondary" />
-          ))}
+      {hasKeywords && (
+        <div className="rounded-lg border bg-muted/30 p-3 space-y-2">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs text-muted-foreground shrink-0">추천 카테고리</span>
+            <Badge variant="secondary">
+              {RECOMMEND_CATEGORY_LABELS[recommendCategory] ?? recommendCategory}
+            </Badge>
+          </div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs text-muted-foreground shrink-0">키워드</span>
+            {keywords.map((k) => (
+              <KeywordChip key={k} keyword={k} variant="secondary" />
+            ))}
+          </div>
         </div>
       )}
 
