@@ -37,5 +37,6 @@ export interface NotificationSettings {
   categories: NotificationCategory[];
   duties: string[];
   work_types: string[];
+  search: string;
   keywords: string[];
 }

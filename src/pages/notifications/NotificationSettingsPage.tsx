@@ -8,25 +8,13 @@ import { MultiChipFilter } from "@/components/common/MultiChipFilter";
 import { useAuth } from "@/hooks/useAuth";
 import { useKeywords } from "@/hooks/useKeywords";
 import { useNotificationSettings } from "@/hooks/useNotificationSettings";
+import { DUTY_OPTIONS, WORK_TYPE_OPTIONS } from "@/lib/jobOptions";
 import type { NotificationCategory, NotificationSettings } from "@/types";
 
 const CATEGORY_OPTIONS: { value: NotificationCategory; label: string }[] = [
   { value: "announcement", label: "학사공지" },
   { value: "scholarship", label: "장학금공지" },
   { value: "job", label: "채용공고" },
-];
-
-const DUTY_OPTIONS = [
-  "경영지원", "인사", "전략/기획", "재무/회계", "구매", "금융사무직", "리서치",
-  "(국내)영업(관리)", "마케팅", "해외영업", "물류/SCM", "광고/홍보", "MD",
-  "CS(고객지원)", "방송/언론", "교사/공무원", "번역/통역", "비서", "(인문)전문직",
-  "컨설턴트", "R&D(연구개발)", "SW엔지니어", "HW엔지니어", "기구설계", "품질관리",
-  "생산관리", "공정설계/공정개발/공정관리", "기술영업", "개발(IT)", "데이터/머신러닝",
-  "서비스기획(IT)", "UI/UX디자인", "법무", "기타", "요강참조",
-];
-
-const WORK_TYPE_OPTIONS = [
-  "정규직", "계약직", "인턴직", "채용연계형인턴", "병역특례", "기타",
 ];
 
 export function NotificationSettingsPage() {
@@ -38,6 +26,7 @@ export function NotificationSettingsPage() {
   const [categories, setCategories] = useState<NotificationCategory[]>([]);
   const [duties, setDuties] = useState<string[]>([]);
   const [workTypes, setWorkTypes] = useState<string[]>([]);
+  const [search, setSearch] = useState("");
   const [keywords, setKeywords] = useState<string[]>([]);
   const [keywordInput, setKeywordInput] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -48,6 +37,7 @@ export function NotificationSettingsPage() {
     setCategories(settings.categories);
     setDuties(settings.duties);
     setWorkTypes(settings.work_types);
+    setSearch(settings.search ?? "");
     setKeywords(settings.keywords);
   }, [settings]);
 
@@ -92,6 +82,7 @@ export function NotificationSettingsPage() {
       categories,
       duties: hasJob ? duties : [],
       work_types: hasJob ? workTypes : [],
+      search: search.trim(),
       keywords,
     };
     try {
@@ -142,14 +133,29 @@ export function NotificationSettingsPage() {
         </div>
       </section>
 
-      {/* 직무·고용형태 — 채용공고 선택 시에만 노출 */}
-      {hasJob && (
-        <>
-          <Separator />
-          <section className="space-y-3">
+      <Separator />
+
+      {/* 필터 (제목 검색 + 직무/고용형태 — 채용공고 선택 시) */}
+      <section className="space-y-3">
+        <h2 className="text-sm font-medium">필터</h2>
+        <p className="text-xs text-muted-foreground">
+          키워드 매칭과 AND로 결합돼요. 비워두면 적용 안 됩니다.
+        </p>
+
+        <div className="space-y-1.5">
+          <p className="text-sm">제목 검색</p>
+          <Input
+            placeholder="제목으로 검색"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+
+        {hasJob && (
+          <>
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <h2 className="text-sm font-medium">직무 (OR 검색)</h2>
+                <p className="text-sm">직무 (OR 검색)</p>
                 {duties.length > 0 && (
                   <button
                     type="button"
@@ -168,7 +174,7 @@ export function NotificationSettingsPage() {
             </div>
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <h2 className="text-sm font-medium">고용형태 (OR 검색)</h2>
+                <p className="text-sm">고용형태 (OR 검색)</p>
                 {workTypes.length > 0 && (
                   <button
                     type="button"
@@ -185,9 +191,9 @@ export function NotificationSettingsPage() {
                 onChange={setWorkTypes}
               />
             </div>
-          </section>
-        </>
-      )}
+          </>
+        )}
+      </section>
 
       <Separator />
 

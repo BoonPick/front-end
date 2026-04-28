@@ -10,6 +10,7 @@ import { ExpiredFilterToggle } from "@/components/common/ExpiredFilterToggle";
 import { useBoardItems } from "@/hooks/useBoardItems";
 import { useKeywords } from "@/hooks/useKeywords";
 import { useRecommendCategory } from "@/hooks/useRecommendCategory";
+import { useRecommendFilter } from "@/hooks/useRecommendFilter";
 import { useRecommendationScores } from "@/hooks/useRecommendationScores";
 import { useExpiredFilter } from "@/hooks/useExpiredFilter";
 import {
@@ -31,24 +32,31 @@ const RECOMMEND_CATEGORY_LABELS: Record<string, string> = {
 };
 
 export function BoardPage() {
-  const [activeCategory, setActiveCategory] = useState("all");
   const { keywords } = useKeywords();
   const { category: recommendCategory } = useRecommendCategory();
+  const { filter, hasFilter } = useRecommendFilter();
   const { showExpired, setShowExpired } = useExpiredFilter();
 
-  const isRecommendTab = activeCategory === "recommendation";
   const hasKeywords = keywords.length > 0;
+  // 키워드 또는 필터가 있으면 진입 시 추천 탭이 기본
+  const [activeCategory, setActiveCategory] = useState<string>(() =>
+    hasKeywords || hasFilter ? "recommendation" : "all",
+  );
+
+  const isRecommendTab = activeCategory === "recommendation";
 
   const apiCategory = isRecommendTab
     ? (recommendCategory === "all" ? undefined : (recommendCategory as Category))
     : (activeCategory === "all" ? undefined : (activeCategory as Category));
 
-  const apiKeywords = isRecommendTab ? keywords : undefined;
+  const apiKeywords = isRecommendTab && hasKeywords ? keywords : undefined;
+  const apiSearch = isRecommendTab && filter.search ? filter.search : undefined;
 
   const { data: items = [], isLoading } = useBoardItems(
     apiCategory,
     apiKeywords,
-    !isRecommendTab || hasKeywords,
+    !isRecommendTab || hasKeywords || hasFilter,
+    apiSearch,
   );
 
   const filteredItems = useMemo(
@@ -63,24 +71,31 @@ export function BoardPage() {
   );
 
   const sortedItems = useMemo(() => {
-    if (isRecommendTab) return sortByMatchScoreDesc(filteredItems, scoreById);
+    if (isRecommendTab) {
+      // 키워드 없이 필터만 있을 땐 매칭 점수 의미 없음 → 등록일 기준
+      return hasKeywords
+        ? sortByMatchScoreDesc(filteredItems, scoreById)
+        : sortAllItems(filteredItems);
+    }
     if (activeCategory === "all") return sortAllItems(filteredItems);
     if (activeCategory === "job" || activeCategory === "announcement" || activeCategory === "scholarship") {
       return sortByCategoryView(filteredItems, activeCategory);
     }
     return filteredItems;
-  }, [filteredItems, isRecommendTab, scoreById, activeCategory]);
+  }, [filteredItems, isRecommendTab, scoreById, activeCategory, hasKeywords]);
 
   const [page, setPage] = useState(1);
   useEffect(() => {
     setPage(1);
-  }, [activeCategory, recommendCategory, keywords]);
+  }, [activeCategory, recommendCategory, keywords, filter]);
 
   const totalPages = Math.max(1, Math.ceil(sortedItems.length / PAGE_SIZE));
   const pagedItems = useMemo(
     () => sortedItems.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE),
     [sortedItems, page],
   );
+
+  const showInfoPanel = hasKeywords || hasFilter;
 
   return (
     <div className="space-y-6">
@@ -95,7 +110,7 @@ export function BoardPage() {
         </div>
       </div>
 
-      {hasKeywords && (
+      {showInfoPanel && (
         <div className="rounded-lg border bg-muted/30 p-3 space-y-2">
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-xs text-muted-foreground shrink-0">추천 카테고리</span>
@@ -103,22 +118,30 @@ export function BoardPage() {
               {RECOMMEND_CATEGORY_LABELS[recommendCategory] ?? recommendCategory}
             </Badge>
           </div>
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs text-muted-foreground shrink-0">키워드</span>
-            {keywords.map((k) => (
-              <KeywordChip key={k} keyword={k} variant="secondary" />
-            ))}
-          </div>
+          {hasKeywords && (
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-xs text-muted-foreground shrink-0">키워드</span>
+              {keywords.map((k) => (
+                <KeywordChip key={k} keyword={k} variant="secondary" />
+              ))}
+            </div>
+          )}
+          {filter.search && (
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-xs text-muted-foreground shrink-0">제목 검색</span>
+              <Badge variant="outline">{filter.search}</Badge>
+            </div>
+          )}
         </div>
       )}
 
-      {isRecommendTab && !hasKeywords && (
+      {isRecommendTab && !hasKeywords && !hasFilter && (
         <div className="rounded-lg border border-dashed p-6 text-center">
           <p className="text-muted-foreground">
-            키워드를 설정하면 맞춤 추천을 받아볼 수 있어요.
+            키워드 또는 필터를 설정하면 맞춤 추천을 받아볼 수 있어요.
           </p>
           <Button variant="link" className="mt-2" render={<Link to="/keywords/edit" />}>
-            키워드 설정하기
+            키워드 / 필터 설정하기
           </Button>
         </div>
       )}
@@ -127,7 +150,7 @@ export function BoardPage() {
 
       {isLoading ? (
         <div className="py-8 text-center text-muted-foreground">로딩 중...</div>
-      ) : isRecommendTab && !hasKeywords ? null : sortedItems.length === 0 ? (
+      ) : isRecommendTab && !hasKeywords && !hasFilter ? null : sortedItems.length === 0 ? (
         <div className="py-8 text-center text-muted-foreground">
           검색 결과가 없습니다.
         </div>

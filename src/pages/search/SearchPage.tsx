@@ -17,23 +17,11 @@ import {
   sortByMatchScoreDesc,
 } from "@/lib/sortBoardItems";
 import { filterExpired } from "@/lib/filterBoardItems";
+import { DUTY_OPTIONS, WORK_TYPE_OPTIONS } from "@/lib/jobOptions";
 import { Search } from "lucide-react";
 import type { Category } from "@/types";
 
 const PAGE_SIZE = 10;
-
-const DUTY_OPTIONS = [
-  "경영지원", "인사", "전략/기획", "재무/회계", "구매", "금융사무직", "리서치",
-  "(국내)영업(관리)", "마케팅", "해외영업", "물류/SCM", "광고/홍보", "MD",
-  "CS(고객지원)", "방송/언론", "교사/공무원", "번역/통역", "비서", "(인문)전문직",
-  "컨설턴트", "R&D(연구개발)", "SW엔지니어", "HW엔지니어", "기구설계", "품질관리",
-  "생산관리", "공정설계/공정개발/공정관리", "기술영업", "개발(IT)", "데이터/머신러닝",
-  "서비스기획(IT)", "UI/UX디자인", "법무", "기타", "요강참조",
-];
-
-const WORK_TYPE_OPTIONS = [
-  "정규직", "계약직", "인턴직", "채용연계형인턴", "병역특례", "기타",
-];
 
 export function SearchPage() {
   const [inputValue, setInputValue] = useState("");

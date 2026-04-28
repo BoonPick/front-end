@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { KeywordForm } from "@/components/common/KeywordForm";
 import { useKeywords } from "@/hooks/useKeywords";
 import { useRecommendCategory } from "@/hooks/useRecommendCategory";
+import { useRecommendFilter } from "@/hooks/useRecommendFilter";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import type { Category } from "@/types";
 
@@ -17,9 +20,13 @@ export function KeywordEditPage() {
   const navigate = useNavigate();
   const { keywords, updateKeywords, isLoading } = useKeywords();
   const { category: recommendCategory, updateCategory } = useRecommendCategory();
+  const { filter, setFilter } = useRecommendFilter();
+
+  const [search, setSearch] = useState(filter.search);
 
   const handleSubmit = async (newKeywords: string[]) => {
     await updateKeywords(newKeywords);
+    setFilter({ search: search.trim() });
     navigate("/board");
   };
 
@@ -56,6 +63,20 @@ export function KeywordEditPage() {
               </Button>
             ))}
           </div>
+        </div>
+
+        <Separator />
+
+        <div className="space-y-3 pt-2">
+          <p className="text-sm font-medium">필터</p>
+          <p className="text-xs text-muted-foreground">
+            추천 탭에 적용할 제목 검색입니다. 키워드와 AND로 결합돼요.
+          </p>
+          <Input
+            placeholder="제목으로 검색"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
       </div>
     </>
