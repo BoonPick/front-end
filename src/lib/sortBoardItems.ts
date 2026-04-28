@@ -40,3 +40,13 @@ export function sortByCategoryView(
   if (view === "job") return sortJobItems(items);
   return sortByDateDesc(items);
 }
+
+export function sortAllItems(items: BoardItem[]): BoardItem[] {
+  return [...items].sort((a, b) => {
+    const dateCmp = (b.date ?? "").localeCompare(a.date ?? "");
+    if (dateCmp !== 0) return dateCmp;
+    const dlA = a.category === "job" ? deadlineKey(a) : FAR_FUTURE;
+    const dlB = b.category === "job" ? deadlineKey(b) : FAR_FUTURE;
+    return dlA.localeCompare(dlB);
+  });
+}

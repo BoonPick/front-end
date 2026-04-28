@@ -1,18 +1,23 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { CategoryTabs } from "@/components/common/CategoryTabs";
 import { BoardCard } from "@/components/common/BoardCard";
+import { Pagination } from "@/components/common/Pagination";
 import { useBoardItems } from "@/hooks/useBoardItems";
 import { useKeywords } from "@/hooks/useKeywords";
 import { useRecommendCategory } from "@/hooks/useRecommendCategory";
 import { useRecommendationScores } from "@/hooks/useRecommendationScores";
 import {
+  sortAllItems,
   sortByCategoryView,
   sortByMatchScoreDesc,
 } from "@/lib/sortBoardItems";
+import { filterExpired } from "@/lib/filterBoardItems";
 import { Search } from "lucide-react";
 import type { Category } from "@/types";
+
+const PAGE_SIZE = 10;
 
 const DUTY_OPTIONS = [
   "경영지원", "인사", "전략/기획", "재무/회계", "구매", "금융사무직", "리서치",
@@ -60,19 +65,33 @@ export function SearchPage() {
     workType || undefined,
   );
 
-  const itemIds = useMemo(() => items.map((i) => i.id), [items]);
+  const filteredItems = useMemo(() => filterExpired(items), [items]);
+
+  const itemIds = useMemo(() => filteredItems.map((i) => i.id), [filteredItems]);
   const { scoreById } = useRecommendationScores(
     itemIds,
-    isRecommendTab && keywords.length > 0 && items.length > 0,
+    isRecommendTab && keywords.length > 0 && filteredItems.length > 0,
   );
 
   const sortedItems = useMemo(() => {
-    if (isRecommendTab) return sortByMatchScoreDesc(items, scoreById);
+    if (isRecommendTab) return sortByMatchScoreDesc(filteredItems, scoreById);
+    if (activeCategory === "all") return sortAllItems(filteredItems);
     if (activeCategory === "job" || activeCategory === "announcement" || activeCategory === "scholarship") {
-      return sortByCategoryView(items, activeCategory);
+      return sortByCategoryView(filteredItems, activeCategory);
     }
-    return items;
-  }, [items, isRecommendTab, scoreById, activeCategory]);
+    return filteredItems;
+  }, [filteredItems, isRecommendTab, scoreById, activeCategory]);
+
+  const [page, setPage] = useState(1);
+  useEffect(() => {
+    setPage(1);
+  }, [activeCategory, recommendCategory, search, duty, workType]);
+
+  const totalPages = Math.max(1, Math.ceil(sortedItems.length / PAGE_SIZE));
+  const pagedItems = useMemo(
+    () => sortedItems.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE),
+    [sortedItems, page],
+  );
 
   const handleSearch = () => setSearch(inputValue.trim());
 
@@ -134,11 +153,14 @@ export function SearchPage() {
       ) : sortedItems.length === 0 ? (
         <div className="py-8 text-center text-muted-foreground">검색 결과가 없습니다.</div>
       ) : (
-        <div className="space-y-3">
-          {sortedItems.map((item) => (
-            <BoardCard key={item.id} item={item} />
-          ))}
-        </div>
+        <>
+          <div className="space-y-3">
+            {pagedItems.map((item) => (
+              <BoardCard key={item.id} item={item} />
+            ))}
+          </div>
+          <Pagination page={page} totalPages={totalPages} onChange={setPage} />
+        </>
       )}
     </div>
   );

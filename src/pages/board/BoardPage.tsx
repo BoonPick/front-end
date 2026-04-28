@@ -1,19 +1,24 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { CategoryTabs } from "@/components/common/CategoryTabs";
 import { BoardCard } from "@/components/common/BoardCard";
 import { KeywordChip } from "@/components/common/KeywordChip";
+import { Pagination } from "@/components/common/Pagination";
 import { useBoardItems } from "@/hooks/useBoardItems";
 import { useKeywords } from "@/hooks/useKeywords";
 import { useRecommendCategory } from "@/hooks/useRecommendCategory";
 import { useRecommendationScores } from "@/hooks/useRecommendationScores";
 import {
+  sortAllItems,
   sortByCategoryView,
   sortByMatchScoreDesc,
 } from "@/lib/sortBoardItems";
+import { filterExpired } from "@/lib/filterBoardItems";
 import type { Category } from "@/types";
 import { Settings } from "lucide-react";
+
+const PAGE_SIZE = 10;
 
 export function BoardPage() {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -35,19 +40,33 @@ export function BoardPage() {
     !isRecommendTab || hasKeywords,
   );
 
-  const itemIds = useMemo(() => items.map((i) => i.id), [items]);
+  const filteredItems = useMemo(() => filterExpired(items), [items]);
+
+  const itemIds = useMemo(() => filteredItems.map((i) => i.id), [filteredItems]);
   const { scoreById } = useRecommendationScores(
     itemIds,
-    isRecommendTab && hasKeywords && items.length > 0,
+    isRecommendTab && hasKeywords && filteredItems.length > 0,
   );
 
   const sortedItems = useMemo(() => {
-    if (isRecommendTab) return sortByMatchScoreDesc(items, scoreById);
+    if (isRecommendTab) return sortByMatchScoreDesc(filteredItems, scoreById);
+    if (activeCategory === "all") return sortAllItems(filteredItems);
     if (activeCategory === "job" || activeCategory === "announcement" || activeCategory === "scholarship") {
-      return sortByCategoryView(items, activeCategory);
+      return sortByCategoryView(filteredItems, activeCategory);
     }
-    return items;
-  }, [items, isRecommendTab, scoreById, activeCategory]);
+    return filteredItems;
+  }, [filteredItems, isRecommendTab, scoreById, activeCategory]);
+
+  const [page, setPage] = useState(1);
+  useEffect(() => {
+    setPage(1);
+  }, [activeCategory, recommendCategory, keywords]);
+
+  const totalPages = Math.max(1, Math.ceil(sortedItems.length / PAGE_SIZE));
+  const pagedItems = useMemo(
+    () => sortedItems.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE),
+    [sortedItems, page],
+  );
 
   return (
     <div className="space-y-6">
@@ -87,11 +106,14 @@ export function BoardPage() {
           검색 결과가 없습니다.
         </div>
       ) : (
-        <div className="space-y-3">
-          {sortedItems.map((item) => (
-            <BoardCard key={item.id} item={item} />
-          ))}
-        </div>
+        <>
+          <div className="space-y-3">
+            {pagedItems.map((item) => (
+              <BoardCard key={item.id} item={item} />
+            ))}
+          </div>
+          <Pagination page={page} totalPages={totalPages} onChange={setPage} />
+        </>
       )}
     </div>
   );
