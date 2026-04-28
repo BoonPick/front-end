@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { CategoryTabs } from "@/components/common/CategoryTabs";
@@ -6,6 +6,11 @@ import { BoardCard } from "@/components/common/BoardCard";
 import { useBoardItems } from "@/hooks/useBoardItems";
 import { useKeywords } from "@/hooks/useKeywords";
 import { useRecommendCategory } from "@/hooks/useRecommendCategory";
+import { useRecommendationScores } from "@/hooks/useRecommendationScores";
+import {
+  sortByCategoryView,
+  sortByMatchScoreDesc,
+} from "@/lib/sortBoardItems";
 import { Search } from "lucide-react";
 import type { Category } from "@/types";
 
@@ -54,6 +59,20 @@ export function SearchPage() {
     duty || undefined,
     workType || undefined,
   );
+
+  const itemIds = useMemo(() => items.map((i) => i.id), [items]);
+  const { scoreById } = useRecommendationScores(
+    itemIds,
+    isRecommendTab && keywords.length > 0 && items.length > 0,
+  );
+
+  const sortedItems = useMemo(() => {
+    if (isRecommendTab) return sortByMatchScoreDesc(items, scoreById);
+    if (activeCategory === "job" || activeCategory === "announcement" || activeCategory === "scholarship") {
+      return sortByCategoryView(items, activeCategory);
+    }
+    return items;
+  }, [items, isRecommendTab, scoreById, activeCategory]);
 
   const handleSearch = () => setSearch(inputValue.trim());
 
@@ -112,11 +131,11 @@ export function SearchPage() {
         </div>
       ) : isLoading ? (
         <div className="py-8 text-center text-muted-foreground">검색 중...</div>
-      ) : items.length === 0 ? (
+      ) : sortedItems.length === 0 ? (
         <div className="py-8 text-center text-muted-foreground">검색 결과가 없습니다.</div>
       ) : (
         <div className="space-y-3">
-          {items.map((item) => (
+          {sortedItems.map((item) => (
             <BoardCard key={item.id} item={item} />
           ))}
         </div>

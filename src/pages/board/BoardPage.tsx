@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { CategoryTabs } from "@/components/common/CategoryTabs";
@@ -7,6 +7,11 @@ import { KeywordChip } from "@/components/common/KeywordChip";
 import { useBoardItems } from "@/hooks/useBoardItems";
 import { useKeywords } from "@/hooks/useKeywords";
 import { useRecommendCategory } from "@/hooks/useRecommendCategory";
+import { useRecommendationScores } from "@/hooks/useRecommendationScores";
+import {
+  sortByCategoryView,
+  sortByMatchScoreDesc,
+} from "@/lib/sortBoardItems";
 import type { Category } from "@/types";
 import { Settings } from "lucide-react";
 
@@ -29,6 +34,20 @@ export function BoardPage() {
     apiKeywords,
     !isRecommendTab || hasKeywords,
   );
+
+  const itemIds = useMemo(() => items.map((i) => i.id), [items]);
+  const { scoreById } = useRecommendationScores(
+    itemIds,
+    isRecommendTab && hasKeywords && items.length > 0,
+  );
+
+  const sortedItems = useMemo(() => {
+    if (isRecommendTab) return sortByMatchScoreDesc(items, scoreById);
+    if (activeCategory === "job" || activeCategory === "announcement" || activeCategory === "scholarship") {
+      return sortByCategoryView(items, activeCategory);
+    }
+    return items;
+  }, [items, isRecommendTab, scoreById, activeCategory]);
 
   return (
     <div className="space-y-6">
@@ -63,13 +82,13 @@ export function BoardPage() {
 
       {isLoading ? (
         <div className="py-8 text-center text-muted-foreground">로딩 중...</div>
-      ) : isRecommendTab && !hasKeywords ? null : items.length === 0 ? (
+      ) : isRecommendTab && !hasKeywords ? null : sortedItems.length === 0 ? (
         <div className="py-8 text-center text-muted-foreground">
           검색 결과가 없습니다.
         </div>
       ) : (
         <div className="space-y-3">
-          {items.map((item) => (
+          {sortedItems.map((item) => (
             <BoardCard key={item.id} item={item} />
           ))}
         </div>
