@@ -5,10 +5,12 @@ import { CategoryTabs } from "@/components/common/CategoryTabs";
 import { BoardCard } from "@/components/common/BoardCard";
 import { KeywordChip } from "@/components/common/KeywordChip";
 import { Pagination } from "@/components/common/Pagination";
+import { ExpiredFilterToggle } from "@/components/common/ExpiredFilterToggle";
 import { useBoardItems } from "@/hooks/useBoardItems";
 import { useKeywords } from "@/hooks/useKeywords";
 import { useRecommendCategory } from "@/hooks/useRecommendCategory";
 import { useRecommendationScores } from "@/hooks/useRecommendationScores";
+import { useExpiredFilter } from "@/hooks/useExpiredFilter";
 import {
   sortAllItems,
   sortByCategoryView,
@@ -24,6 +26,7 @@ export function BoardPage() {
   const [activeCategory, setActiveCategory] = useState("all");
   const { keywords } = useKeywords();
   const { category: recommendCategory } = useRecommendCategory();
+  const { showExpired, setShowExpired } = useExpiredFilter();
 
   const isRecommendTab = activeCategory === "recommendation";
   const hasKeywords = keywords.length > 0;
@@ -40,7 +43,10 @@ export function BoardPage() {
     !isRecommendTab || hasKeywords,
   );
 
-  const filteredItems = useMemo(() => filterExpired(items), [items]);
+  const filteredItems = useMemo(
+    () => (showExpired ? items : filterExpired(items)),
+    [items, showExpired],
+  );
 
   const itemIds = useMemo(() => filteredItems.map((i) => i.id), [filteredItems]);
   const { scoreById } = useRecommendationScores(
@@ -70,12 +76,15 @@ export function BoardPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-start justify-between">
         <h1 className="text-2xl font-bold">맞춤 정보</h1>
-        <Button variant="outline" size="sm" render={<Link to="/keywords/edit" />}>
-          <Settings className="mr-1 h-4 w-4" />
-          키워드 관리
-        </Button>
+        <div className="flex flex-col items-end gap-1.5">
+          <Button variant="outline" size="sm" render={<Link to="/keywords/edit" />}>
+            <Settings className="mr-1 h-4 w-4" />
+            키워드 관리
+          </Button>
+          <ExpiredFilterToggle checked={showExpired} onChange={setShowExpired} />
+        </div>
       </div>
 
       {isRecommendTab && hasKeywords && (

@@ -4,10 +4,13 @@ import { Button } from "@/components/ui/button";
 import { CategoryTabs } from "@/components/common/CategoryTabs";
 import { BoardCard } from "@/components/common/BoardCard";
 import { Pagination } from "@/components/common/Pagination";
+import { ExpiredFilterToggle } from "@/components/common/ExpiredFilterToggle";
+import { MultiChipFilter } from "@/components/common/MultiChipFilter";
 import { useBoardItems } from "@/hooks/useBoardItems";
 import { useKeywords } from "@/hooks/useKeywords";
 import { useRecommendCategory } from "@/hooks/useRecommendCategory";
 import { useRecommendationScores } from "@/hooks/useRecommendationScores";
+import { useExpiredFilter } from "@/hooks/useExpiredFilter";
 import {
   sortAllItems,
   sortByCategoryView,
@@ -32,22 +35,22 @@ const WORK_TYPE_OPTIONS = [
   "정규직", "계약직", "인턴직", "채용연계형인턴", "병역특례", "기타",
 ];
 
-const selectClass =
-  "flex h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring w-full max-w-xs";
-
 export function SearchPage() {
   const [inputValue, setInputValue] = useState("");
   const [search, setSearch] = useState("");
-  const [duty, setDuty] = useState("");
-  const [workType, setWorkType] = useState("");
+  const [duties, setDuties] = useState<string[]>([]);
+  const [workTypes, setWorkTypes] = useState<string[]>([]);
   const [activeCategory, setActiveCategory] = useState("all");
 
   const { keywords } = useKeywords();
   const { category: recommendCategory } = useRecommendCategory();
+  const { showExpired, setShowExpired } = useExpiredFilter();
 
   const isRecommendTab = activeCategory === "recommendation";
   const showJobFilters = activeCategory === "all" || activeCategory === "job";
-  const hasFilter = !!search || !!duty || !!workType;
+  const dutyParam = duties.join(",");
+  const workTypeParam = workTypes.join(",");
+  const hasFilter = !!search || duties.length > 0 || workTypes.length > 0;
 
   const apiCategory = isRecommendTab
     ? (recommendCategory === "all" ? undefined : (recommendCategory as Category))
@@ -61,11 +64,14 @@ export function SearchPage() {
     apiKeywords,
     shouldFetch,
     search || undefined,
-    duty || undefined,
-    workType || undefined,
+    dutyParam || undefined,
+    workTypeParam || undefined,
   );
 
-  const filteredItems = useMemo(() => filterExpired(items), [items]);
+  const filteredItems = useMemo(
+    () => (showExpired ? items : filterExpired(items)),
+    [items, showExpired],
+  );
 
   const itemIds = useMemo(() => filteredItems.map((i) => i.id), [filteredItems]);
   const { scoreById } = useRecommendationScores(
@@ -85,7 +91,7 @@ export function SearchPage() {
   const [page, setPage] = useState(1);
   useEffect(() => {
     setPage(1);
-  }, [activeCategory, recommendCategory, search, duty, workType]);
+  }, [activeCategory, recommendCategory, search, dutyParam, workTypeParam]);
 
   const totalPages = Math.max(1, Math.ceil(sortedItems.length / PAGE_SIZE));
   const pagedItems = useMemo(
@@ -97,7 +103,10 @@ export function SearchPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">검색</h1>
+      <div className="flex items-start justify-between">
+        <h1 className="text-2xl font-bold">검색</h1>
+        <ExpiredFilterToggle checked={showExpired} onChange={setShowExpired} />
+      </div>
 
       <div className="flex gap-2">
         <Input
@@ -112,32 +121,36 @@ export function SearchPage() {
       </div>
 
       {showJobFilters && (
-        <div className="flex flex-wrap gap-4">
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground shrink-0">직무</span>
-            <select
-              className={selectClass}
-              value={duty}
-              onChange={(e) => setDuty(e.target.value)}
-            >
-              <option value="">전체</option>
-              {DUTY_OPTIONS.map((d) => (
-                <option key={d} value={d}>{d}</option>
-              ))}
-            </select>
+        <div className="space-y-3">
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium">직무</span>
+              {duties.length > 0 && (
+                <button
+                  type="button"
+                  className="text-xs text-muted-foreground hover:text-foreground"
+                  onClick={() => setDuties([])}
+                >
+                  초기화
+                </button>
+              )}
+            </div>
+            <MultiChipFilter options={DUTY_OPTIONS} value={duties} onChange={setDuties} />
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground shrink-0">고용형태</span>
-            <select
-              className={selectClass}
-              value={workType}
-              onChange={(e) => setWorkType(e.target.value)}
-            >
-              <option value="">전체</option>
-              {WORK_TYPE_OPTIONS.map((w) => (
-                <option key={w} value={w}>{w}</option>
-              ))}
-            </select>
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium">고용형태</span>
+              {workTypes.length > 0 && (
+                <button
+                  type="button"
+                  className="text-xs text-muted-foreground hover:text-foreground"
+                  onClick={() => setWorkTypes([])}
+                >
+                  초기화
+                </button>
+              )}
+            </div>
+            <MultiChipFilter options={WORK_TYPE_OPTIONS} value={workTypes} onChange={setWorkTypes} />
           </div>
         </div>
       )}
