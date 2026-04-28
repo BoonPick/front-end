@@ -30,22 +30,29 @@ describe("auth API", () => {
   });
 
   describe("signup", () => {
-    it("calls apiClient with POST and signup data", async () => {
+    it("calls apiClient with POST and signup data including verification_code", async () => {
       const mockUser = { id: "2", email: "b@c.com", name: "Bob", keywords: [] };
       vi.mocked(client.apiClient).mockResolvedValue(mockUser);
 
-      const result = await signup("b@c.com", "pass456", "Bob");
+      const result = await signup("b@c.com", "pass456", "Bob", "123456");
 
       expect(client.apiClient).toHaveBeenCalledWith("/api/auth/signup", {
         method: "POST",
-        body: JSON.stringify({ email: "b@c.com", password: "pass456", name: "Bob" }),
+        body: JSON.stringify({
+          email: "b@c.com",
+          password: "pass456",
+          name: "Bob",
+          verification_code: "123456",
+        }),
       });
       expect(result).toEqual(mockUser);
     });
 
     it("propagates errors from apiClient", async () => {
       vi.mocked(client.apiClient).mockRejectedValue(new Error("Signup failed"));
-      await expect(signup("b@c.com", "pass", "Bob")).rejects.toThrow("Signup failed");
+      await expect(signup("b@c.com", "pass", "Bob", "000000")).rejects.toThrow(
+        "Signup failed",
+      );
     });
   });
 });

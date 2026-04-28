@@ -31,6 +31,7 @@ describe("Header", () => {
       error: null,
       login: vi.fn(),
       signup: vi.fn(),
+      sendVerificationCode: vi.fn(),
       logout: mockLogout,
     });
 
@@ -46,6 +47,7 @@ describe("Header", () => {
       error: null,
       login: vi.fn(),
       signup: vi.fn(),
+      sendVerificationCode: vi.fn(),
       logout: mockLogout,
     });
 
@@ -62,6 +64,7 @@ describe("Header", () => {
       error: null,
       login: vi.fn(),
       signup: vi.fn(),
+      sendVerificationCode: vi.fn(),
       logout: mockLogout,
     });
 
@@ -80,6 +83,7 @@ describe("Header", () => {
       error: null,
       login: vi.fn(),
       signup: vi.fn(),
+      sendVerificationCode: vi.fn(),
       logout: mockLogout,
     });
 

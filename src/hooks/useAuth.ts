@@ -39,11 +39,21 @@ export function useAuth() {
   }, []);
 
   const signup = useCallback(
-    async (email: string, password: string, name: string) => {
+    async (
+      email: string,
+      password: string,
+      name: string,
+      verificationCode: string,
+    ) => {
       setLoading(true);
       setError(null);
       try {
-        const newUser = await authApi.signup(email, password, name);
+        const newUser = await authApi.signup(
+          email,
+          password,
+          name,
+          verificationCode,
+        );
         setUser(newUser);
         return newUser;
       } catch (e) {
@@ -58,11 +68,32 @@ export function useAuth() {
     [],
   );
 
+  const sendVerificationCode = useCallback(async (email: string) => {
+    setError(null);
+    try {
+      return await authApi.sendVerificationCode(email);
+    } catch (e) {
+      const message =
+        e instanceof Error ? e.message : "인증코드 발송에 실패했습니다.";
+      setError(message);
+      throw e;
+    }
+  }, []);
+
   const logout = useCallback(() => {
     setUser(null);
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem("boonpick_keywords");
   }, []);
 
-  return { user, loading, error, login, signup, logout, isAuthenticated: !!user };
+  return {
+    user,
+    loading,
+    error,
+    login,
+    signup,
+    sendVerificationCode,
+    logout,
+    isAuthenticated: !!user,
+  };
 }

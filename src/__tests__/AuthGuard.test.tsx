@@ -21,6 +21,7 @@ describe("AuthGuard", () => {
       error: null,
       login: vi.fn(),
       signup: vi.fn(),
+      sendVerificationCode: vi.fn(),
       logout: vi.fn(),
     });
 
@@ -41,6 +42,7 @@ describe("AuthGuard", () => {
       error: null,
       login: vi.fn(),
       signup: vi.fn(),
+      sendVerificationCode: vi.fn(),
       logout: vi.fn(),
     });
 
@@ -61,6 +63,7 @@ describe("AuthGuard", () => {
       error: null,
       login: vi.fn(),
       signup: vi.fn(),
+      sendVerificationCode: vi.fn(),
       logout: vi.fn(),
     });
 

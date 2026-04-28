@@ -22,6 +22,7 @@ const mockUseAuth = (overrides = {}) => {
     error: null,
     login: vi.fn(),
     signup: vi.fn(),
+    sendVerificationCode: vi.fn(),
     logout: vi.fn(),
     ...overrides,
   });

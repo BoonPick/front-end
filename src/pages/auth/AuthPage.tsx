@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,7 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 
 export function AuthPage() {
   const navigate = useNavigate();
-  const { login, signup, error, loading, isAuthenticated } = useAuth();
+  const { login, signup, sendVerificationCode, error, loading, isAuthenticated } = useAuth();
 
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [signupForm, setSignupForm] = useState({
@@ -17,7 +17,20 @@ export function AuthPage() {
     password: "",
     confirmPassword: "",
     name: "",
+    verificationCode: "",
   });
+  const [codeSent, setCodeSent] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
+  const [sendingCode, setSendingCode] = useState(false);
+  const [sendCodeError, setSendCodeError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (resendCooldown <= 0) return;
+    const t = setInterval(() => {
+      setResendCooldown((c) => Math.max(0, c - 1));
+    }, 1000);
+    return () => clearInterval(t);
+  }, [resendCooldown]);
 
   if (isAuthenticated) {
     navigate("/board", { replace: true });
@@ -38,13 +51,40 @@ export function AuthPage() {
     }
   };
 
+  const handleSendCode = async () => {
+    if (!signupForm.email) return;
+    setSendCodeError(null);
+    setSendingCode(true);
+    try {
+      const res = await sendVerificationCode(signupForm.email);
+      setCodeSent(true);
+      setResendCooldown(60);
+      // expires_in은 서버 기본 600초 — UI에는 재발송 쿨다운만 노출
+      void res;
+    } catch (e) {
+      setSendCodeError(
+        e instanceof Error ? e.message : "인증코드 발송에 실패했습니다.",
+      );
+    } finally {
+      setSendingCode(false);
+    }
+  };
+
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     if (signupForm.password !== signupForm.confirmPassword) {
       return;
     }
+    if (!signupForm.verificationCode) {
+      return;
+    }
     try {
-      await signup(signupForm.email, signupForm.password, signupForm.name);
+      await signup(
+        signupForm.email,
+        signupForm.password,
+        signupForm.name,
+        signupForm.verificationCode,
+      );
       navigate("/keywords");
     } catch {
       // error is set in useAuth
@@ -123,13 +163,60 @@ export function AuthPage() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="signup-email">이메일</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="signup-email"
+                      type="email"
+                      placeholder="이메일을 입력하세요"
+                      value={signupForm.email}
+                      onChange={(e) => {
+                        setSignupForm({ ...signupForm, email: e.target.value });
+                        setCodeSent(false);
+                        setSendCodeError(null);
+                      }}
+                      required
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={handleSendCode}
+                      disabled={
+                        !signupForm.email || sendingCode || resendCooldown > 0
+                      }
+                    >
+                      {resendCooldown > 0
+                        ? `${resendCooldown}초`
+                        : sendingCode
+                        ? "발송 중"
+                        : codeSent
+                        ? "재발송"
+                        : "인증코드 받기"}
+                    </Button>
+                  </div>
+                  {sendCodeError && (
+                    <p className="text-sm text-destructive">{sendCodeError}</p>
+                  )}
+                  {codeSent && !sendCodeError && (
+                    <p className="text-xs text-muted-foreground">
+                      메일로 발송된 6자리 인증코드를 10분 안에 입력해주세요.
+                    </p>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signup-code">인증코드</Label>
                   <Input
-                    id="signup-email"
-                    type="email"
-                    placeholder="이메일을 입력하세요"
-                    value={signupForm.email}
+                    id="signup-code"
+                    inputMode="numeric"
+                    maxLength={6}
+                    placeholder="이메일로 받은 6자리 코드"
+                    value={signupForm.verificationCode}
                     onChange={(e) =>
-                      setSignupForm({ ...signupForm, email: e.target.value })
+                      setSignupForm({
+                        ...signupForm,
+                        verificationCode: e.target.value
+                          .replace(/[^0-9]/g, "")
+                          .slice(0, 6),
+                      })
                     }
                     required
                   />

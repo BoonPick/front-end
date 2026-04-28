@@ -24,6 +24,7 @@ describe("RootLayout", () => {
       error: null,
       login: vi.fn(),
       signup: vi.fn(),
+      sendVerificationCode: vi.fn(),
       logout: vi.fn(),
     });
 
@@ -44,6 +45,7 @@ describe("RootLayout", () => {
       error: null,
       login: vi.fn(),
       signup: vi.fn(),
+      sendVerificationCode: vi.fn(),
       logout: vi.fn(),
     });
 
