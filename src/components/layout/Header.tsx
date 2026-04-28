@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
-import { LogOut, Settings, Search, Home } from "lucide-react";
+import { LogOut, Settings, Search, Home, Bell } from "lucide-react";
 
 export function Header() {
   const { user, logout } = useAuth();
@@ -32,6 +32,10 @@ export function Header() {
             <Button variant="ghost" size="sm" render={<Link to="/keywords/edit" />}>
               <Settings className="mr-1 h-4 w-4" />
               키워드 관리
+            </Button>
+            <Button variant="ghost" size="sm" render={<Link to="/notifications" />}>
+              <Bell className="mr-1 h-4 w-4" />
+              알림 설정
             </Button>
             <Button variant="ghost" size="sm" onClick={handleLogout}>
               <LogOut className="mr-1 h-4 w-4" />

@@ -30,3 +30,12 @@ export interface Recommendation {
   matchReason: string;
   preparationTips: string[];
 }
+
+export type NotificationCategory = "announcement" | "scholarship" | "job";
+
+export interface NotificationSettings {
+  categories: NotificationCategory[];
+  duties: string[];
+  work_types: string[];
+  keywords: string[];
+}

@@ -8,6 +8,7 @@ import { BoardPage } from "@/pages/board/BoardPage";
 import { DetailPage } from "@/pages/detail/DetailPage";
 import { SearchPage } from "@/pages/search/SearchPage";
 import { AdminKeywordPage } from "@/pages/admin/AdminKeywordPage";
+import { NotificationSettingsPage } from "@/pages/notifications/NotificationSettingsPage";
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
     children: [
       { path: "/keywords", element: <KeywordInputPage /> },
       { path: "/keywords/edit", element: <KeywordEditPage /> },
+      { path: "/notifications", element: <NotificationSettingsPage /> },
       { path: "/board", element: <BoardPage /> },
       { path: "/board/:id", element: <DetailPage /> },
       { path: "/search", element: <SearchPage /> },
