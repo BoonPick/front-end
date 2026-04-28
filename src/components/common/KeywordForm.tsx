@@ -7,10 +7,12 @@ import { getSuggestedKeywords } from "@/api/keywords";
 
 interface KeywordFormProps {
   initialKeywords?: string[];
-  onSubmit: (keywords: string[]) => void;
-  submitLabel: string;
+  onSubmit?: (keywords: string[]) => void;
+  submitLabel?: string;
   title: string;
   onCancel?: () => void;
+  hideActions?: boolean;
+  onKeywordsChange?: (keywords: string[]) => void;
 }
 
 export function KeywordForm({
@@ -19,6 +21,8 @@ export function KeywordForm({
   submitLabel,
   title,
   onCancel,
+  hideActions = false,
+  onKeywordsChange,
 }: KeywordFormProps) {
   const [keywords, setKeywords] = useState<string[]>(initialKeywords);
   const [inputValue, setInputValue] = useState("");
@@ -27,6 +31,10 @@ export function KeywordForm({
   useEffect(() => {
     getSuggestedKeywords().then(setSuggestedKeywords).catch(() => {});
   }, []);
+
+  useEffect(() => {
+    onKeywordsChange?.(keywords);
+  }, [keywords, onKeywordsChange]);
 
   const addKeyword = (keyword: string) => {
     const trimmed = keyword.trim();
@@ -100,19 +108,18 @@ export function KeywordForm({
         </div>
       </div>
 
-      <div className="flex gap-2 pt-4">
-        {onCancel && (
-          <Button variant="outline" onClick={onCancel} className="flex-1">
-            취소
+      {!hideActions && onSubmit && (
+        <div className="flex gap-2 pt-4">
+          {onCancel && (
+            <Button variant="outline" onClick={onCancel} className="flex-1">
+              취소
+            </Button>
+          )}
+          <Button onClick={() => onSubmit(keywords)} className="flex-1">
+            {submitLabel ?? "저장"}
           </Button>
-        )}
-        <Button
-          onClick={() => onSubmit(keywords)}
-          className="flex-1"
-        >
-          {submitLabel}
-        </Button>
-      </div>
+        </div>
+      )}
     </div>
   );
 }

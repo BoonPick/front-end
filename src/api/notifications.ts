@@ -21,3 +21,10 @@ export async function updateNotificationSettings(
     },
   );
 }
+
+export async function notifyNow(userId: string): Promise<{ items_sent: number }> {
+  return apiClient<{ items_sent: number }>(
+    `/api/users/${userId}/notify-now`,
+    { method: "POST" },
+  );
+}

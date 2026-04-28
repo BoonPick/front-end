@@ -5,9 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { KeywordChip } from "@/components/common/KeywordChip";
 import { MultiChipFilter } from "@/components/common/MultiChipFilter";
+import { notifyNow } from "@/api/notifications";
 import { useAuth } from "@/hooks/useAuth";
 import { useKeywords } from "@/hooks/useKeywords";
 import { useNotificationSettings } from "@/hooks/useNotificationSettings";
+import { useRecommendFilter } from "@/hooks/useRecommendFilter";
 import { DUTY_OPTIONS, WORK_TYPE_OPTIONS } from "@/lib/jobOptions";
 import type { NotificationCategory, NotificationSettings } from "@/types";
 
@@ -21,6 +23,7 @@ export function NotificationSettingsPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { keywords: currentKeywords } = useKeywords();
+  const { filter: recommendFilter } = useRecommendFilter();
   const { settings, isLoading, save, isSaving } = useNotificationSettings(user?.id);
 
   const [categories, setCategories] = useState<NotificationCategory[]>([]);
@@ -30,6 +33,8 @@ export function NotificationSettingsPage() {
   const [keywords, setKeywords] = useState<string[]>([]);
   const [keywordInput, setKeywordInput] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [notifyNowMessage, setNotifyNowMessage] = useState<string | null>(null);
+  const [notifyingNow, setNotifyingNow] = useState(false);
 
   // 서버 설정 로드 시 폼 초기화
   useEffect(() => {
@@ -63,6 +68,37 @@ export function NotificationSettingsPage() {
 
   const overwriteWithCurrentKeywords = () => {
     setKeywords([...currentKeywords]);
+    setSearch(recommendFilter.search);
+    setDuties([...recommendFilter.duties]);
+    setWorkTypes([...recommendFilter.workTypes]);
+  };
+
+  // 즉시 발송은 서버에 저장된 설정 기준이라, 저장된 settings 기준으로 활성화 판단.
+  const savedHasAnyFilter =
+    !!settings &&
+    (settings.keywords.length > 0 ||
+      !!settings.search ||
+      settings.duties.length > 0 ||
+      settings.work_types.length > 0);
+
+  const handleNotifyNow = async () => {
+    if (!user?.id) return;
+    setNotifyNowMessage(null);
+    setNotifyingNow(true);
+    try {
+      const res = await notifyNow(user.id);
+      setNotifyNowMessage(
+        res.items_sent > 0
+          ? `메일을 발송했어요 (${res.items_sent}건)`
+          : "조건에 맞는 게시물이 없어요.",
+      );
+    } catch (e) {
+      setNotifyNowMessage(
+        e instanceof Error ? e.message : "발송에 실패했습니다.",
+      );
+    } finally {
+      setNotifyingNow(false);
+    }
   };
 
   const handleSave = async () => {
@@ -206,9 +242,14 @@ export function NotificationSettingsPage() {
             variant="outline"
             size="sm"
             onClick={overwriteWithCurrentKeywords}
-            disabled={currentKeywords.length === 0}
+            disabled={
+              currentKeywords.length === 0 &&
+              !recommendFilter.search &&
+              recommendFilter.duties.length === 0 &&
+              recommendFilter.workTypes.length === 0
+            }
           >
-            현재 키워드로 덮어쓰기
+            현재 추천 설정으로 덮어쓰기
           </Button>
         </div>
         <div className="flex gap-2">
@@ -268,6 +309,28 @@ export function NotificationSettingsPage() {
           {isSaving ? "저장 중..." : "저장"}
         </Button>
       </div>
+
+      <Separator />
+
+      <section className="space-y-2">
+        <Button
+          type="button"
+          variant="secondary"
+          className="w-full"
+          onClick={handleNotifyNow}
+          disabled={notifyingNow || !savedHasAnyFilter}
+        >
+          {notifyingNow ? "발송 중..." : "바로 추천받아보기"}
+        </Button>
+        <p className="text-xs text-muted-foreground">
+          {savedHasAnyFilter
+            ? "저장된 알림 설정으로 마감 안 된 채용 + 6개월 안 지난 공지·장학 중 매칭 항목을 즉시 메일 발송합니다 (last_notified_at 갱신 안 함)."
+            : "키워드 또는 필터를 1개 이상 저장한 뒤 사용할 수 있어요."}
+        </p>
+        {notifyNowMessage && (
+          <p className="text-sm">{notifyNowMessage}</p>
+        )}
+      </section>
     </div>
   );
 }

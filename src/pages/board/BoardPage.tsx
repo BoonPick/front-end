@@ -44,6 +44,8 @@ export function BoardPage() {
   );
 
   const isRecommendTab = activeCategory === "recommendation";
+  const showJobFiltersInRecommend =
+    recommendCategory === "all" || recommendCategory === "job";
 
   const apiCategory = isRecommendTab
     ? (recommendCategory === "all" ? undefined : (recommendCategory as Category))
@@ -51,12 +53,22 @@ export function BoardPage() {
 
   const apiKeywords = isRecommendTab && hasKeywords ? keywords : undefined;
   const apiSearch = isRecommendTab && filter.search ? filter.search : undefined;
+  const apiDuty =
+    isRecommendTab && showJobFiltersInRecommend && filter.duties.length > 0
+      ? filter.duties.join(",")
+      : undefined;
+  const apiWorkType =
+    isRecommendTab && showJobFiltersInRecommend && filter.workTypes.length > 0
+      ? filter.workTypes.join(",")
+      : undefined;
 
   const { data: items = [], isLoading } = useBoardItems(
     apiCategory,
     apiKeywords,
     !isRecommendTab || hasKeywords || hasFilter,
     apiSearch,
+    apiDuty,
+    apiWorkType,
   );
 
   const filteredItems = useMemo(
@@ -130,6 +142,22 @@ export function BoardPage() {
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-xs text-muted-foreground shrink-0">제목 검색</span>
               <Badge variant="outline">{filter.search}</Badge>
+            </div>
+          )}
+          {filter.duties.length > 0 && (
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-xs text-muted-foreground shrink-0">직무</span>
+              {filter.duties.map((d) => (
+                <Badge key={d} variant="outline">{d}</Badge>
+              ))}
+            </div>
+          )}
+          {filter.workTypes.length > 0 && (
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-xs text-muted-foreground shrink-0">고용형태</span>
+              {filter.workTypes.map((w) => (
+                <Badge key={w} variant="outline">{w}</Badge>
+              ))}
             </div>
           )}
         </div>

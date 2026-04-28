@@ -4,9 +4,11 @@ const STORAGE_KEY = "boonpick_recommend_filter";
 
 export interface RecommendFilter {
   search: string;
+  duties: string[];
+  workTypes: string[];
 }
 
-const DEFAULT: RecommendFilter = { search: "" };
+const DEFAULT: RecommendFilter = { search: "", duties: [], workTypes: [] };
 
 function read(): RecommendFilter {
   try {
@@ -15,6 +17,8 @@ function read(): RecommendFilter {
     const parsed = JSON.parse(stored);
     return {
       search: typeof parsed.search === "string" ? parsed.search : "",
+      duties: Array.isArray(parsed.duties) ? parsed.duties : [],
+      workTypes: Array.isArray(parsed.workTypes) ? parsed.workTypes : [],
     };
   } catch {
     return DEFAULT;
@@ -37,7 +41,10 @@ export function useRecommendFilter() {
     setFilterState(next);
   };
 
-  const hasFilter = filter.search.length > 0;
+  const hasFilter =
+    filter.search.length > 0 ||
+    filter.duties.length > 0 ||
+    filter.workTypes.length > 0;
 
   return { filter, setFilter, hasFilter };
 }
