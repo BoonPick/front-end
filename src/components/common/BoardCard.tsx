@@ -21,6 +21,23 @@ const categoryColors: Record<string, string> = {
   scholarship: "bg-green-100 text-green-800",
 };
 
+const WORK_TYPE_COLORS: Record<string, string> = {
+  정규직: "bg-red-100 text-red-800",
+  인턴직: "bg-sky-100 text-sky-800",
+  계약직: "bg-purple-100 text-purple-800",
+  채용연계형인턴: "bg-lime-100 text-lime-800",
+  병역특례: "bg-blue-100 text-blue-800",
+};
+
+const WORK_TYPE_FALLBACK = "bg-gray-100 text-gray-800";
+
+function splitWorkType(workType: string): string[] {
+  return workType
+    .split(",")
+    .map((w) => w.trim())
+    .filter(Boolean);
+}
+
 interface BoardCardProps {
   item: BoardItem;
 }
@@ -42,20 +59,39 @@ function DeadlineLabel({ item }: { item: BoardItem }) {
   return null;
 }
 
-export function BoardCard({ item }: BoardCardProps) {
-  const badgeLabel =
-    item.category === "job" && item.workType
-      ? item.workType
-      : categoryLabels[item.category];
+function HeaderBadges({ item }: { item: BoardItem }) {
+  if (item.category === "job" && item.workType) {
+    const types = splitWorkType(item.workType);
+    if (types.length > 0) {
+      return (
+        <>
+          {types.map((t) => (
+            <Badge
+              key={t}
+              variant="secondary"
+              className={WORK_TYPE_COLORS[t] ?? WORK_TYPE_FALLBACK}
+            >
+              {t}
+            </Badge>
+          ))}
+        </>
+      );
+    }
+  }
+  return (
+    <Badge variant="secondary" className={categoryColors[item.category]}>
+      {categoryLabels[item.category]}
+    </Badge>
+  );
+}
 
+export function BoardCard({ item }: BoardCardProps) {
   return (
     <Link to={`/board/${item.id}`}>
       <Card className="transition-colors hover:bg-muted/50">
         <CardHeader className="pb-2">
-          <div className="flex items-center gap-2">
-            <Badge variant="secondary" className={categoryColors[item.category]}>
-              {badgeLabel}
-            </Badge>
+          <div className="flex items-center gap-2 flex-wrap">
+            <HeaderBadges item={item} />
             <span className="text-xs text-muted-foreground">{item.source}</span>
             <DeadlineLabel item={item} />
           </div>
