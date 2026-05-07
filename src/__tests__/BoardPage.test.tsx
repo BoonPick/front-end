@@ -2,15 +2,18 @@ import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BoardPage } from "@/pages/board/BoardPage";
 
 vi.mock("@/hooks/useBoardItems");
 vi.mock("@/hooks/useKeywords");
 vi.mock("@/hooks/useRecommendCategory");
+vi.mock("@/hooks/useRecommendationScores");
 
 import * as boardItemsModule from "@/hooks/useBoardItems";
 import * as keywordsModule from "@/hooks/useKeywords";
 import * as recommendModule from "@/hooks/useRecommendCategory";
+import * as recommendationScoresModule from "@/hooks/useRecommendationScores";
 
 const mockItem = {
   id: "1",
@@ -37,13 +40,25 @@ function setup(overrides: {
   vi.mocked(boardItemsModule.useBoardItems).mockReturnValue({ data: items, isLoading } as any);
   vi.mocked(keywordsModule.useKeywords).mockReturnValue({ keywords, updateKeywords: vi.fn(), isLoading: false } as any);
   vi.mocked(recommendModule.useRecommendCategory).mockReturnValue({ category: recommendCategory, updateCategory: vi.fn() } as any);
+  vi.mocked(recommendationScoresModule.useRecommendationScores).mockReturnValue({ scoreById: {}, isLoading: false } as any);
+}
+
+function createTestQueryClient() {
+  return new QueryClient({
+    defaultOptions: {
+      queries: { retry: false },
+    },
+  });
 }
 
 function renderPage() {
+  const queryClient = createTestQueryClient();
   return render(
-    <MemoryRouter>
-      <BoardPage />
-    </MemoryRouter>
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter>
+        <BoardPage />
+      </MemoryRouter>
+    </QueryClientProvider>
   );
 }
 

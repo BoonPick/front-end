@@ -25,20 +25,20 @@ describe("board API", () => {
     it("calls apiClient with /api/board when no filters", async () => {
       vi.mocked(client.apiClient).mockResolvedValue([mockBoardItem]);
       const result = await getBoardItems();
-      expect(client.apiClient).toHaveBeenCalledWith("/api/board?");
+      expect(client.apiClient).toHaveBeenCalledWith("/api/board?size=100");
       expect(result).toEqual([mockBoardItem]);
     });
 
     it("appends category param when provided", async () => {
       vi.mocked(client.apiClient).mockResolvedValue([]);
       await getBoardItems("announcement");
-      expect(client.apiClient).toHaveBeenCalledWith("/api/board?category=announcement");
+      expect(client.apiClient).toHaveBeenCalledWith("/api/board?category=announcement&size=100");
     });
 
     it("appends keywords param when provided", async () => {
       vi.mocked(client.apiClient).mockResolvedValue([]);
       await getBoardItems(undefined, ["AI", "취업"]);
-      expect(client.apiClient).toHaveBeenCalledWith("/api/board?keywords=AI%2C%EC%B7%A8%EC%97%85");
+      expect(client.apiClient).toHaveBeenCalledWith("/api/board?keywords=AI%2C%EC%B7%A8%EC%97%85&size=100");
     });
 
     it("appends both category and keywords when both provided", async () => {
@@ -52,7 +52,7 @@ describe("board API", () => {
     it("does not append keywords param when empty array", async () => {
       vi.mocked(client.apiClient).mockResolvedValue([]);
       await getBoardItems(undefined, []);
-      expect(client.apiClient).toHaveBeenCalledWith("/api/board?");
+      expect(client.apiClient).toHaveBeenCalledWith("/api/board?size=100");
     });
 
     it("propagates errors from apiClient", async () => {

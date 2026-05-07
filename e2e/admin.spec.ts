@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 
-test('admin keyword page renders without crashing', async ({ page }) => {
+// TODO: flaky
+  test('admin keyword page renders without crashing', async ({ page }) => {
   await page.route('**/api/**', route =>
     route.fulfill({ status: 200, body: JSON.stringify([]) })
   );
