@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { CategoryTabs } from "@/components/common/CategoryTabs";
@@ -77,9 +77,12 @@ export function SearchPage() {
   }, [filteredItems, isRecommendTab, scoreById, activeCategory]);
 
   const [page, setPage] = useState(1);
-  useEffect(() => {
+  const filterKey = `${activeCategory}|${recommendCategory}|${search}|${dutyParam}|${workTypeParam}`;
+  const [prevFilterKey, setPrevFilterKey] = useState(filterKey);
+  if (prevFilterKey !== filterKey) {
+    setPrevFilterKey(filterKey);
     setPage(1);
-  }, [activeCategory, recommendCategory, search, dutyParam, workTypeParam]);
+  }
 
   const totalPages = Math.max(1, Math.ceil(sortedItems.length / PAGE_SIZE));
   const pagedItems = useMemo(

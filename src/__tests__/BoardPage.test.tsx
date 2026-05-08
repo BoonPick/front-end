@@ -7,6 +7,9 @@ import { BoardPage } from "@/pages/board/BoardPage";
 vi.mock("@/hooks/useBoardItems");
 vi.mock("@/hooks/useKeywords");
 vi.mock("@/hooks/useRecommendCategory");
+vi.mock("@/hooks/useRecommendationScores", () => ({
+  useRecommendationScores: () => ({ scoreById: {}, isLoading: false }),
+}));
 
 import * as boardItemsModule from "@/hooks/useBoardItems";
 import * as keywordsModule from "@/hooks/useKeywords";

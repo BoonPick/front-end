@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 
 test('keyword input page renders without crashing', async ({ page }) => {
-  await page.route('**/api/**', route =>
-    route.fulfill({ status: 200, body: JSON.stringify([]) })
+  await page.route(/^https?:\/\/[^/]+\/api\//, route =>
+    route.fulfill({ status: 200, contentType: 'application/json', body: '[]' })
   );
   await page.route('**dapi.kakao.com**', route =>
     route.fulfill({ status: 200, body: JSON.stringify([]) })
@@ -12,5 +12,5 @@ test('keyword input page renders without crashing', async ({ page }) => {
   );
 
   await page.goto('/keywords');
-  await expect(page.locator('body')).toBeVisible();
+  await expect(page.locator('#root')).not.toBeEmpty();
 });

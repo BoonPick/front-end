@@ -18,7 +18,7 @@ vi.mock("react-router-dom", async (importOriginal) => {
   const actual = await importOriginal<typeof import("react-router-dom")>();
   return {
     ...actual,
-    RouterProvider: ({ router }: any) => <div data-testid="router-root">app</div>,
+    RouterProvider: () => <div data-testid="router-root">app</div>,
   };
 });
 
