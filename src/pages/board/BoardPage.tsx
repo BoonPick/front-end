@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -97,9 +97,12 @@ export function BoardPage() {
   }, [filteredItems, isRecommendTab, scoreById, activeCategory, hasKeywords]);
 
   const [page, setPage] = useState(1);
-  useEffect(() => {
+  const filterKey = `${activeCategory}|${recommendCategory}|${keywords.join(",")}|${JSON.stringify(filter)}`;
+  const [prevFilterKey, setPrevFilterKey] = useState(filterKey);
+  if (prevFilterKey !== filterKey) {
+    setPrevFilterKey(filterKey);
     setPage(1);
-  }, [activeCategory, recommendCategory, keywords, filter]);
+  }
 
   const totalPages = Math.max(1, Math.ceil(sortedItems.length / PAGE_SIZE));
   const pagedItems = useMemo(

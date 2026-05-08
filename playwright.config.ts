@@ -3,7 +3,7 @@ export default defineConfig({
   testDir: './e2e',
   use: { baseURL: 'http://localhost:5173', headless: true, trace: 'off' },
   webServer: {
-    command: 'yarn dev --port 5173',
+    command: 'npx yarn dev --port 5173',
     url: 'http://localhost:5173',
     reuseExistingServer: false,
     timeout: 60_000,
