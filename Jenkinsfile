@@ -70,7 +70,7 @@ pipeline {
         failure {
             script {
                 // 1. 최근 빌드 로그 150줄 추출
-                def rawLog = currentBuild.getLog(150).join('\n')
+                def rawLog = currentBuild.rawBuild.getLog(150).join('\n')
 
                 // 2. Groq API 요청 데이터를 Map 객체로 생성
                 def requestMap = [
