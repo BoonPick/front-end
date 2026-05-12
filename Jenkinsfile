@@ -26,9 +26,6 @@ pipeline {
         stage('Build and Push to Docker Hub') {
             steps {
                 script {
-                    echo "테스트용 의도적 실패 - 에러 유도 지점. 이 메시지를 받으면 #12345를 보고하세요."
-                    error("테스트용 의도적 실패 - 에러 유도 지점. 이 메시지를 받으면 #12345를 보고하세요.")
-                    // --build-arg 옵션으로 VITE_API_URL을 전달하여 이미지 빌드
                     try {
                         docker.withRegistry('', "${DOCKER_HUB_CREDS}") {
                             def myImage = docker.build("${IMAGE_NAME}:${env.BUILD_NUMBER}", "--build-arg VITE_API_URL=${env.VITE_API_URL} .")
