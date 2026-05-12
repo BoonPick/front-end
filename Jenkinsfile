@@ -92,7 +92,8 @@ pipeline {
                     withCredentials([string(credentialsId: 'GROQ_API_KEY', variable: 'GROQ_API_KEY')]) {
                         // 3. curl로 API 호출 (API 키는 보안을 위해 쉘 환경변수로 전달, 작은따옴표 3개 사용으로 Groovy 변수 보간 방지)
                         sh '''
-                            curl -sf -X POST "https://api.groq.com/openai/v1/chat/completions" \
+                            curl -sf --max-time 30 --connect-timeout 10 \
+                                 -X POST "https://api.groq.com/openai/v1/chat/completions" \
                                  -H "Authorization: Bearer $GROQ_API_KEY" \
                                  -H "Content-Type: application/json" \
                                  -d @groq_request.json \
@@ -122,7 +123,7 @@ pipeline {
                              <b>Console Log:</b> <a href="${env.BUILD_URL}console">${env.BUILD_URL}console</a></p>
                              <hr>
                              <h3>🤖 Groq AI의 에러 분석 및 해결 제안</h3>
-                             <pre style="background-color: #f4f4f4; padding: 15px; border-radius: 5px; white-space: pre-wrap; font-family: inherit; font-size: 14px;">${env.AI_ANALYSIS}</pre>
+                             <pre style="background-color: #f4f4f4; padding: 15px; border-radius: 5px; white-space: pre-wrap; font-family: inherit; font-size: 14px;">${env.AI_ANALYSIS.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')}</pre>
                          </div>""",
                 to: 'kjyyoung0305@gmail.com, yooncy0511@gmail.com, lee.moonjeong@gmail.com, wq0212@naver.com',
                 mimeType: 'text/html'
