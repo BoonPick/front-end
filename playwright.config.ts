@@ -1,7 +1,15 @@
 import { defineConfig } from '@playwright/test';
 export default defineConfig({
   testDir: './e2e',
-  use: { baseURL: 'http://localhost:5173', headless: true, trace: 'off' },
+  use: {
+    baseURL: 'http://localhost:5173',
+    headless: true,
+    trace: 'off',
+    launchOptions: {
+      executablePath: '/usr/bin/chromium-browser',
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
+    },
+  },
   webServer: {
     command: 'npx yarn dev --port 5173',
     url: 'http://localhost:5173',
