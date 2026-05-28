@@ -1,0 +1,592 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for front-end/src/mocks/boardItems.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">front-end/src/mocks</a> boardItems.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>0/167</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>0/167</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { BoardItem } from "@/types";
+&nbsp;
+<span class="cstat-no" title="statement not covered" >export const mockBoardItems: BoardItem[] = [</span>
+<span class="cstat-no" title="statement not covered" >  {</span>
+<span class="cstat-no" title="statement not covered" >    id: "1",</span>
+<span class="cstat-no" title="statement not covered" >    category: "job",</span>
+<span class="cstat-no" title="statement not covered" >    title: "2026년 상반기 9급 공무원 공개채용",</span>
+<span class="cstat-no" title="statement not covered" >    summary: "행정직, IT직 등 다양한 분야에서 신규 채용을 진행합니다.",</span>
+<span class="cstat-no" title="statement not covered" >    body: "인사혁신처에서 2026년 상반기 9급 공무원 공개채용을 실시합니다. 행정직, IT직, 세무직 등 총 5,000명을 선발하며, 원서접수는 4월 1일부터 4월 15일까지입니다. 필기시험은 6월 예정이며, 최종합격자는 9월에 발표됩니다. 자세한 사항은 사이버국가고시센터를 참고하세요.",</span>
+<span class="cstat-no" title="statement not covered" >    source: "인사혁신처",</span>
+<span class="cstat-no" title="statement not covered" >    sourceUrl: "https://example.com/gosi",</span>
+<span class="cstat-no" title="statement not covered" >    date: "2026-03-15",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["공무원", "채용", "9급"],</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  {</span>
+<span class="cstat-no" title="statement not covered" >    id: "2",</span>
+<span class="cstat-no" title="statement not covered" >    category: "job",</span>
+<span class="cstat-no" title="statement not covered" >    title: "네이버 신입 개발자 채용 (상시)",</span>
+<span class="cstat-no" title="statement not covered" >    summary: "프론트엔드, 백엔드, AI 등 다양한 포지션 모집 중.",</span>
+<span class="cstat-no" title="statement not covered" >    body: "네이버에서 신입 및 경력 개발자를 상시 채용합니다. React, TypeScript 기반 프론트엔드 개발자와 Spring Boot 기반 백엔드 개발자를 적극 모집 중입니다. 지원 자격은 관련 전공 졸업(예정)자이며, 코딩 테스트와 기술 면접을 통해 선발합니다.",</span>
+<span class="cstat-no" title="statement not covered" >    source: "네이버 채용",</span>
+<span class="cstat-no" title="statement not covered" >    sourceUrl: "https://example.com/naver",</span>
+<span class="cstat-no" title="statement not covered" >    date: "2026-03-20",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["IT 개발자", "프론트엔드", "스타트업"],</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  {</span>
+<span class="cstat-no" title="statement not covered" >    id: "3",</span>
+<span class="cstat-no" title="statement not covered" >    category: "scholarship",</span>
+<span class="cstat-no" title="statement not covered" >    title: "한국장학재단 국가장학금 2학기 신청",</span>
+<span class="cstat-no" title="statement not covered" >    summary: "소득구간별 최대 520만원 지원, 4월 1일부터 신청 가능.",</span>
+<span class="cstat-no" title="statement not covered" >    body: "한국장학재단에서 2026년 2학기 국가장학금을 신청받습니다. 대한민국 국적을 가진 국내 대학 재학생이면 신청 가능하며, 소득구간에 따라 등록금 전액~520만원까지 지원됩니다. 신청 기간은 4월 1일~5월 15일이며, 한국장학재단 홈페이지에서 온라인으로 신청하세요.",</span>
+<span class="cstat-no" title="statement not covered" >    source: "한국장학재단",</span>
+<span class="cstat-no" title="statement not covered" >    sourceUrl: "https://example.com/kosaf",</span>
+<span class="cstat-no" title="statement not covered" >    date: "2026-03-25",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["장학금", "대학원"],</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  {</span>
+<span class="cstat-no" title="statement not covered" >    id: "4",</span>
+<span class="cstat-no" title="statement not covered" >    category: "scholarship",</span>
+<span class="cstat-no" title="statement not covered" >    title: "삼성꿈장학재단 해외유학 장학생 모집",</span>
+<span class="cstat-no" title="statement not covered" >    summary: "이공계 대학원 해외유학 전액 지원, 생활비 포함.",</span>
+<span class="cstat-no" title="statement not covered" >    body: "삼성꿈장학재단에서 이공계 분야 해외 석·박사 유학 장학생을 모집합니다. 등록금 전액, 생활비, 항공료를 지원하며, 선발 인원은 50명입니다. 국내 4년제 대학 졸업(예정)자로 TOEFL 100점 이상 또는 IELTS 7.0 이상의 어학 성적이 필요합니다.",</span>
+<span class="cstat-no" title="statement not covered" >    source: "삼성꿈장학재단",</span>
+<span class="cstat-no" title="statement not covered" >    sourceUrl: "https://example.com/samsung-scholarship",</span>
+<span class="cstat-no" title="statement not covered" >    date: "2026-03-10",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["장학금", "해외취업", "대학원"],</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  {</span>
+<span class="cstat-no" title="statement not covered" >    id: "5",</span>
+<span class="cstat-no" title="statement not covered" >    category: "announcement",</span>
+<span class="cstat-no" title="statement not covered" >    title: "2026년 대학생 봉사활동 인증제 시행 안내",</span>
+<span class="cstat-no" title="statement not covered" >    summary: "봉사활동 시간 인증 및 취업 연계 프로그램 안내.",</span>
+<span class="cstat-no" title="statement not covered" >    body: "교육부에서 2026년부터 대학생 봉사활동 인증제를 시행합니다. 연간 40시간 이상 봉사활동을 하면 공식 인증서를 발급받을 수 있으며, 공공기관 채용 시 가점이 부여됩니다. 참여를 원하는 학생은 각 대학 봉사센터를 통해 등록하세요.",</span>
+<span class="cstat-no" title="statement not covered" >    source: "교육부",</span>
+<span class="cstat-no" title="statement not covered" >    sourceUrl: "https://example.com/volunteer",</span>
+<span class="cstat-no" title="statement not covered" >    date: "2026-03-18",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["봉사활동", "공지사항"],</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  {</span>
+<span class="cstat-no" title="statement not covered" >    id: "6",</span>
+<span class="cstat-no" title="statement not covered" >    category: "job",</span>
+<span class="cstat-no" title="statement not covered" >    title: "카카오 인턴십 프로그램 (여름)",</span>
+<span class="cstat-no" title="statement not covered" >    summary: "8주간의 실무 경험과 정규직 전환 기회 제공.",</span>
+<span class="cstat-no" title="statement not covered" >    body: "카카오에서 2026년 여름 인턴십 프로그램을 운영합니다. 8주 동안 실제 프로젝트에 참여하며, 우수 인턴은 정규직으로 전환됩니다. 모집 분야는 소프트웨어 개발, 데이터 분석, UX 디자인 등이며, 지원 마감은 4월 30일입니다.",</span>
+<span class="cstat-no" title="statement not covered" >    source: "카카오 채용",</span>
+<span class="cstat-no" title="statement not covered" >    sourceUrl: "https://example.com/kakao-intern",</span>
+<span class="cstat-no" title="statement not covered" >    date: "2026-03-22",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["인턴십", "IT 개발자", "스타트업"],</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  {</span>
+<span class="cstat-no" title="statement not covered" >    id: "7",</span>
+<span class="cstat-no" title="statement not covered" >    category: "announcement",</span>
+<span class="cstat-no" title="statement not covered" >    title: "국가기술자격 시험 일정 변경 안내",</span>
+<span class="cstat-no" title="statement not covered" >    summary: "정보처리기사 등 일부 종목 시험 일정이 변경되었습니다.",</span>
+<span class="cstat-no" title="statement not covered" >    body: "한국산업인력공단에서 2026년 국가기술자격 시험 일정 일부를 변경하였습니다. 정보처리기사 2회차 필기시험이 6월 15일에서 6월 22일로 연기되었으며, 실기시험은 8월로 예정되어 있습니다. 수험생은 Q-Net 홈페이지에서 변경된 일정을 확인해주세요.",</span>
+<span class="cstat-no" title="statement not covered" >    source: "한국산업인력공단",</span>
+<span class="cstat-no" title="statement not covered" >    sourceUrl: "https://example.com/qnet",</span>
+<span class="cstat-no" title="statement not covered" >    date: "2026-03-28",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["자격증", "공지사항"],</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  {</span>
+<span class="cstat-no" title="statement not covered" >    id: "8",</span>
+<span class="cstat-no" title="statement not covered" >    category: "job",</span>
+<span class="cstat-no" title="statement not covered" >    title: "토스 백엔드 엔지니어 채용",</span>
+<span class="cstat-no" title="statement not covered" >    summary: "핀테크 서비스 개발, 대규모 트래픽 처리 경험 우대.",</span>
+<span class="cstat-no" title="statement not covered" >    body: "토스에서 백엔드 엔지니어를 채용합니다. Java/Kotlin 기반 서버 개발 경험자를 우대하며, MSA 아키텍처 경험이 있으면 좋습니다. 연봉은 경력에 따라 협의하며, 스톡옵션과 다양한 복지 혜택을 제공합니다.",</span>
+<span class="cstat-no" title="statement not covered" >    source: "토스 채용",</span>
+<span class="cstat-no" title="statement not covered" >    sourceUrl: "https://example.com/toss",</span>
+<span class="cstat-no" title="statement not covered" >    date: "2026-03-19",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["IT 개발자", "스타트업"],</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  {</span>
+<span class="cstat-no" title="statement not covered" >    id: "9",</span>
+<span class="cstat-no" title="statement not covered" >    category: "scholarship",</span>
+<span class="cstat-no" title="statement not covered" >    title: "과학기술정보통신부 이공계 우수학생 장학금",</span>
+<span class="cstat-no" title="statement not covered" >    summary: "등록금 전액 + 연구활동비 지원, 석·박사 과정 대상.",</span>
+<span class="cstat-no" title="statement not covered" >    body: "과학기술정보통신부에서 이공계 석·박사 과정 우수학생을 대상으로 장학금을 지급합니다. 등록금 전액과 월 80만원의 연구활동비가 지원되며, 선발 기준은 학점 3.5/4.5 이상, 지도교수 추천서 필수입니다. 신청은 5월 31일까지입니다.",</span>
+<span class="cstat-no" title="statement not covered" >    source: "과학기술정보통신부",</span>
+<span class="cstat-no" title="statement not covered" >    sourceUrl: "https://example.com/msit-scholarship",</span>
+<span class="cstat-no" title="statement not covered" >    date: "2026-03-12",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["장학금", "대학원", "연구지원"],</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  {</span>
+<span class="cstat-no" title="statement not covered" >    id: "10",</span>
+<span class="cstat-no" title="statement not covered" >    category: "announcement",</span>
+<span class="cstat-no" title="statement not covered" >    title: "2026년 교환학생 프로그램 모집 안내",</span>
+<span class="cstat-no" title="statement not covered" >    summary: "미국, 일본, 독일 등 20개국 파트너 대학 교환 프로그램.",</span>
+<span class="cstat-no" title="statement not covered" >    body: "국립국제교육원에서 2026년 하반기 교환학생 프로그램 참가자를 모집합니다. 미국, 일본, 독일 등 20개국 50여 개 대학과 협약을 맺고 있으며, 선발된 학생에게는 항공료와 생활비 일부가 지원됩니다. GPA 3.0 이상, 어학 성적 보유자가 지원 가능합니다.",</span>
+<span class="cstat-no" title="statement not covered" >    source: "국립국제교육원",</span>
+<span class="cstat-no" title="statement not covered" >    sourceUrl: "https://example.com/exchange",</span>
+<span class="cstat-no" title="statement not covered" >    date: "2026-03-26",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["교환학생", "해외취업"],</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  {</span>
+<span class="cstat-no" title="statement not covered" >    id: "11",</span>
+<span class="cstat-no" title="statement not covered" >    category: "job",</span>
+<span class="cstat-no" title="statement not covered" >    title: "공공기관 채용형 인턴 모집 (한국전력)",</span>
+<span class="cstat-no" title="statement not covered" >    summary: "6개월 인턴 후 정규직 전환, 전기·전자·IT 분야.",</span>
+<span class="cstat-no" title="statement not covered" >    body: "한국전력공사에서 채용형 인턴을 모집합니다. 전기, 전자, IT 분야에서 총 200명을 선발하며, 6개월 인턴 근무 후 평가를 통해 정규직으로 전환됩니다. NCS 기반 필기시험과 면접을 통해 선발하며, 비수도권 지역인재 우대합니다.",</span>
+<span class="cstat-no" title="statement not covered" >    source: "한국전력공사",</span>
+<span class="cstat-no" title="statement not covered" >    sourceUrl: "https://example.com/kepco",</span>
+<span class="cstat-no" title="statement not covered" >    date: "2026-03-14",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["공무원", "인턴십", "채용"],</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  {</span>
+<span class="cstat-no" title="statement not covered" >    id: "12",</span>
+<span class="cstat-no" title="statement not covered" >    category: "announcement",</span>
+<span class="cstat-no" title="statement not covered" >    title: "대학생 공모전 안내 (디자인·IT 분야)",</span>
+<span class="cstat-no" title="statement not covered" >    summary: "총 상금 5,000만원, 팀 또는 개인 참가 가능.",</span>
+<span class="cstat-no" title="statement not covered" >    body: "한국콘텐츠진흥원에서 대학생 대상 디자인·IT 공모전을 개최합니다. 총 상금 5,000만원이며, 대상에게는 1,000만원이 수여됩니다. 팀(최대 5인) 또는 개인으로 참가할 수 있으며, 제출 마감은 5월 31일입니다. 주제는 '일상을 바꾸는 기술'입니다.",</span>
+<span class="cstat-no" title="statement not covered" >    source: "한국콘텐츠진흥원",</span>
+<span class="cstat-no" title="statement not covered" >    sourceUrl: "https://example.com/contest",</span>
+<span class="cstat-no" title="statement not covered" >    date: "2026-03-30",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["공모전", "IT 개발자", "대외활동"],</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  {</span>
+<span class="cstat-no" title="statement not covered" >    id: "13",</span>
+<span class="cstat-no" title="statement not covered" >    category: "scholarship",</span>
+<span class="cstat-no" title="statement not covered" >    title: "지역인재 장학금 (비수도권 대학생 대상)",</span>
+<span class="cstat-no" title="statement not covered" >    summary: "비수도권 소재 대학 재학생 대상, 등록금 지원.",</span>
+<span class="cstat-no" title="statement not covered" >    body: "한국장학재단에서 비수도권 소재 대학 재학생을 위한 지역인재 장학금을 지급합니다. 소득 8구간 이하이면서 학점 3.0 이상인 학생이 대상이며, 등록금의 전액 또는 반액을 지원합니다. 각 대학을 통해 신청하세요.",</span>
+<span class="cstat-no" title="statement not covered" >    source: "한국장학재단",</span>
+<span class="cstat-no" title="statement not covered" >    sourceUrl: "https://example.com/local-scholarship",</span>
+<span class="cstat-no" title="statement not covered" >    date: "2026-03-08",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["장학금"],</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  {</span>
+<span class="cstat-no" title="statement not covered" >    id: "14",</span>
+<span class="cstat-no" title="statement not covered" >    category: "job",</span>
+<span class="cstat-no" title="statement not covered" >    title: "쿠팡 물류 데이터 분석가 채용",</span>
+<span class="cstat-no" title="statement not covered" >    summary: "물류 최적화를 위한 데이터 분석 및 모델링 업무.",</span>
+<span class="cstat-no" title="statement not covered" >    body: "쿠팡에서 물류 데이터 분석가를 채용합니다. Python, SQL 활용 능력이 필수이며, 머신러닝 모델 개발 경험이 있으면 우대합니다. 물류센터 운영 데이터를 기반으로 배송 최적화, 수요 예측 등의 업무를 담당합니다.",</span>
+<span class="cstat-no" title="statement not covered" >    source: "쿠팡 채용",</span>
+<span class="cstat-no" title="statement not covered" >    sourceUrl: "https://example.com/coupang",</span>
+<span class="cstat-no" title="statement not covered" >    date: "2026-03-24",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["IT 개발자", "스타트업"],</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  {</span>
+<span class="cstat-no" title="statement not covered" >    id: "15",</span>
+<span class="cstat-no" title="statement not covered" >    category: "announcement",</span>
+<span class="cstat-no" title="statement not covered" >    title: "청년 취업지원금 신청 안내",</span>
+<span class="cstat-no" title="statement not covered" >    summary: "미취업 청년 대상 월 50만원, 최대 6개월 지원.",</span>
+<span class="cstat-no" title="statement not covered" >    body: "고용노동부에서 미취업 청년을 대상으로 취업지원금을 지급합니다. 만 18~34세 미취업자 중 가구 소득이 중위소득 120% 이하인 청년이 대상이며, 월 50만원씩 최대 6개월간 지원됩니다. 취업활동 계획서 제출이 필요하며, 워크넷을 통해 신청하세요.",</span>
+<span class="cstat-no" title="statement not covered" >    source: "고용노동부",</span>
+<span class="cstat-no" title="statement not covered" >    sourceUrl: "https://example.com/youth-support",</span>
+<span class="cstat-no" title="statement not covered" >    date: "2026-03-17",</span>
+<span class="cstat-no" title="statement not covered" >    keywords: ["채용", "공지사항"],</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >];</span>
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-05-28T00:17:00.222Z
+            </div>
+        <script src="../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../sorter.js"></script>
+        <script src="../../../block-navigation.js"></script>
+    </body>
+</html>
+    
