@@ -8,7 +8,7 @@ pipeline {
         DOCKER_HUB_CREDS = "docker-hub-credentials" // 자격증명 ID
 
         // 배포 서버 정보
-        TARGET_SERVER = "163.239.77.78" 
+        TARGET_SERVER = "100.98.3.27" 
         TARGET_USER = "sogang018@SGVDI.local"
         SSH_CRED_ID = "team" // SSH 자격증명 ID
 
