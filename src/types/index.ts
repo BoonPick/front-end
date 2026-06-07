@@ -24,11 +24,24 @@ export interface BoardItem {
   isAlwaysOpen?: boolean | null;
 }
 
+export interface ScoreBreakdownItem {
+  label: string;
+  score: number;
+  comment?: string;
+}
+
 export interface Recommendation {
   itemId: string;
   matchScore: number;
   matchReason: string;
   preparationTips: string[];
+  // 확장 필드 (백엔드가 채워주면 표시, 구버전/목 데이터는 없을 수 있어 optional)
+  matchLevel?: string;
+  scoreBreakdown?: ScoreBreakdownItem[];
+  matchedKeywords?: string[];
+  missingKeywords?: string[];
+  recommendedActions?: string[];
+  deadlineNote?: string | null;
 }
 
 export type NotificationCategory = "announcement" | "scholarship" | "job";
