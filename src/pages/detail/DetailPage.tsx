@@ -10,7 +10,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useBoardItem, useRecommendation } from "@/hooks/useBoardItems";
-import { ArrowLeft, ExternalLink, Sparkles, CheckCircle } from "lucide-react";
+import {
+  ArrowLeft,
+  ExternalLink,
+  Sparkles,
+  CheckCircle,
+  Clock,
+  ArrowRight,
+} from "lucide-react";
 
 const categoryLabels: Record<string, string> = {
   job: "채용",
@@ -122,12 +129,47 @@ export function DetailPage() {
                   </span>
                 </div>
                 <div>
-                  <p className="font-medium">매칭 점수</p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-medium">매칭 점수</p>
+                    {recommendation.matchLevel ? (
+                      <Badge variant="secondary">
+                        {recommendation.matchLevel}
+                      </Badge>
+                    ) : null}
+                  </div>
                   <p className="text-sm text-muted-foreground">
                     회원님의 관심 키워드 기반
                   </p>
                 </div>
               </div>
+
+              {recommendation.scoreBreakdown &&
+              recommendation.scoreBreakdown.length > 0 ? (
+                <div className="space-y-2">
+                  <h3 className="font-medium">세부 점수</h3>
+                  {recommendation.scoreBreakdown.map((b, i) => (
+                    <div key={i} className="space-y-1">
+                      <div className="flex items-center justify-between text-sm">
+                        <span>{b.label}</span>
+                        <span className="font-medium">{b.score}점</span>
+                      </div>
+                      <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+                        <div
+                          className="h-full rounded-full bg-primary"
+                          style={{
+                            width: `${Math.max(0, Math.min(100, b.score))}%`,
+                          }}
+                        />
+                      </div>
+                      {b.comment ? (
+                        <p className="text-xs text-muted-foreground">
+                          {b.comment}
+                        </p>
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+              ) : null}
 
               <div>
                 <h3 className="mb-1 font-medium">왜 이 정보를 추천할까요?</h3>
@@ -135,6 +177,41 @@ export function DetailPage() {
                   {recommendation.matchReason}
                 </p>
               </div>
+
+              {(recommendation.matchedKeywords?.length ?? 0) > 0 ||
+              (recommendation.missingKeywords?.length ?? 0) > 0 ? (
+                <div className="space-y-2">
+                  {recommendation.matchedKeywords &&
+                  recommendation.matchedKeywords.length > 0 ? (
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <span className="text-sm font-medium">일치 키워드</span>
+                      {recommendation.matchedKeywords.map((kw) => (
+                        <Badge key={kw} className="bg-green-600 hover:bg-green-600">
+                          {kw}
+                        </Badge>
+                      ))}
+                    </div>
+                  ) : null}
+                  {recommendation.missingKeywords &&
+                  recommendation.missingKeywords.length > 0 ? (
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <span className="text-sm font-medium">부족한 키워드</span>
+                      {recommendation.missingKeywords.map((kw) => (
+                        <Badge key={kw} variant="outline">
+                          {kw}
+                        </Badge>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
+
+              {recommendation.deadlineNote ? (
+                <div className="flex items-start gap-2 rounded-md bg-amber-50 p-3 text-sm text-amber-800">
+                  <Clock className="mt-0.5 h-4 w-4 shrink-0" />
+                  <span>{recommendation.deadlineNote}</span>
+                </div>
+              ) : null}
 
               <div>
                 <h3 className="mb-2 font-medium">준비해야 할 것들</h3>
@@ -148,8 +225,23 @@ export function DetailPage() {
                 </ul>
               </div>
 
+              {recommendation.recommendedActions &&
+              recommendation.recommendedActions.length > 0 ? (
+                <div>
+                  <h3 className="mb-2 font-medium">지금 하면 좋은 것</h3>
+                  <ul className="space-y-2">
+                    {recommendation.recommendedActions.map((action, i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm">
+                        <ArrowRight className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                        <span>{action}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+
               <p className="text-xs text-muted-foreground">
-                * AI 기반 분석 결과이며, 백엔드 연동 시 더 정확한 추천이 제공됩니다.
+                * AI 기반 분석 결과이며, 관심 키워드를 구체적으로 설정할수록 정확해집니다.
               </p>
             </>
           ) : null}
